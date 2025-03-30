@@ -5,7 +5,7 @@
 
 ## שער
 
-- שמות המגישים:
+- שמות המגישים: עמית מורדוב , ינון שאול
 - המערכת הנבחרת: מערכת לניהול אוניברסיטאות
 - היחידה הנבחרת: המחלקה הפיננסית
 
@@ -30,11 +30,11 @@
 דוגמא נוספת : ישנה ישות חלשה בשם Payment הקשורה לטבלה Student , ומתקיים כי אין תשלום לאוניברסיטה ללא סטודנט הנדרש לשלמה . 
 
 ## תרשים ERD
-
+![תרשים ERD של המחלקה](images/ERD.jpg)
 
 ## תרשים DSD
+![תרשים DSD של המחלקה](images/DSD.jpg)
 
-🔲 **כאן יש להוסיף את תרשימי ה-ERD וה-DSD בהמשך.**
 
 ## תיאור מבני הנתונים
 
@@ -51,20 +51,29 @@
 - `Financial_Aid`
 - `receives_aid`
 
-💾 **קובץ יצירת הטבלאות מצורף גם הוא לריפוזיטורי.**
+💾 **קובץ יצירת הטבלאות מצורף גם הוא בתיקייה שלב א.**
 
 ## שיטות הכנסת הנתונים
 
-🔲 **כאן יש להוסיף צילומי מסך של שלושת שיטות הכנסת הנתונים שנבחרו.**
+## שיטה א - סקריפט בפייתון
+![סקריפט פייתון להכנסת נתונים לסטודנטים](images/student.jpg)
+
+## שיטה ב -  mockaroo
+![יצירת נתונים אקראיים להכנסת ערכים למחלקה הפיננסית](images/mockaroo_Financial_Aid.jpg)
+
+## שיטה ג - generatedata
+![הכנסת נתונים אקראיים למחלקת תקציב](images/generatedata_Budget.jpg)
+
 
 ## גיבוי ושחזור נתונים
+![גיבוי לבסיס הנתונים](images/Backup_success.jpg)
 
-🔲 **כאן יש להוסיף צילומי מסך של תהליך הגיבוי והשחזור של הנתונים ב-PgAdmin.**
+![שחזור של בסיס הנתונים](images/Restore_success.jpg)
 
 ## סיכום
 
 המערכת שתוכננה מאפשרת ניהול מסודר של הנתונים הנדרשים, תוך שימוש בקשרים בין טבלאות באמצעות מפתחות זרים והגדרות מתאימות. העבודה כללה יצירת טבלאות, עיצוב קשרים, והכנסת נתונים בצורה מסודרת.
 
-🔍 בהמשך, יתווספו תרשימי ERD ו-DSD וכן צילומי מסך של תהליכי הכנסת הנתונים, גיבוי ושחזור.
+תרשימי ERD ו-DSD וכן צילומי מסך של תהליכי הכנסת הנתונים, גיבוי ושחזור.
 
-הנושא הגדול הוא אוניברסיטאות , והמחלקה שלנו בפרוייקט זה הנושא הפיננסי
+הנושא הגדול הוא אוניברסיטאות , והמחלקה שלנו בפרוייקט זה הנושא הפיננסי . 
