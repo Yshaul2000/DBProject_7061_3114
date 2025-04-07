@@ -1,3 +1,4 @@
+
 # DBProject - University Financial Department Database System
 
 ## 📘 Project Report 
@@ -13,6 +14,7 @@ This project is a university financial department database management system. It
 - **Unit**: Financial Department  
 
 ---
+
 ## 📌 Table of Contents
 1. [Overview](#overview)
 2. [ERD and DSD Diagrams](#erd-and-dsd-diagrams)
@@ -24,6 +26,8 @@ This project is a university financial department database management system. It
    - [DELETE Queries](#delete-queries)
    - [UPDATE Queries](#update-queries)
    - [Constraints Using ALTER TABLE](#constraints-using-alter-table)
+7. [Conclusion](#conclusion)
+
 ---
 
 ## 🧾 Overview
@@ -122,8 +126,6 @@ Links budgets to departments.
 
 ---
 
----
-
 # 📘 Stage 2 – Advanced SQL Queries & Constraints
 
 This section includes documentation and screenshots for advanced SQL queries (SELECT, DELETE, UPDATE) and constraint handling as required in Stage 2.
@@ -132,93 +134,149 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 
 ## 📊 SELECT Queries
 
-> A total of 8 SELECT queries were implemented. Each query is described and accompanied by screenshots of the query and its result (up to 5 rows).
+> A total of 8 SELECT queries were implemented. Each query is described and accompanied by screenshots.
 
 ### 🔍 SELECT 1: Total payments per student per year
-Shows how much each student paid in total each year.
 ![Query](images/Stage2/S1.jpg)
 
 ### 🔍 SELECT 2: Monthly income summary from payments
-Calculates total income grouped by month and type of payment.
 ![Query](images/Stage2/S2.jpg)
 
 ### 🔍 SELECT 3: Payments in the last month
-Retrieves recent payments including payment type and topic.
 ![Query](images/Stage2/S3.jpg)
 
 ### 🔍 SELECT 4: Departments with total budgets over 50,000
-Displays departments that have received significant funding.
 ![Query](images/Stage2/S4.jpg)
 
 ### 🔍 SELECT 5: Employees by hire year and department
-Gives insight into employees, their hiring date and salary.
 ![Query](images/Stage2/S5.jpg)
 
 ### 🔍 SELECT 6: Average payment amount by type
-Shows statistical data about payment types.
 ![Query](images/Stage2/S6.jpg)
 
 ### 🔍 SELECT 7: Students receiving aid but no scholarship
-Highlights financially struggling students.
 ![Query](images/Stage2/S7.jpg)
 
 ### 🔍 SELECT 8: Highest scholarship granted per year
-Displays top scholarship per year based on approval date.
 ![Query](images/Stage2/S8.jpg)
 
 ---
 
 ## 🗑️ DELETE Queries
 
-> Each DELETE query includes a description, the SQL code, and screenshots showing the database **before and after** the deletion.
-
-### ❌ DELETE 1: Old small payments (older than 2 years, below average)
-Removes outdated, small-value transactions.
+### ❌ DELETE 1: Remove old small payments
+```sql
+DELETE FROM Payment
+WHERE payment_date < CURRENT_DATE - INTERVAL '2 years'
+  AND amount < (
+      SELECT AVG(p2.amount)
+      FROM Payment p2
+      WHERE p2.type_payment = Payment.type_payment
+  );
+```
 ![Before](images/Stage2/D1.jpg)
 
-### ❌ DELETE 2: Employees earning between 70,000 and 90,000
-Used to clean up high-salary ranges.
+### ❌ DELETE 2: Delete employees with salary between 70,000 and 90,000
+```sql
+DELETE FROM Employees
+WHERE salary between 70000 and 90000;
+```
 ![Before](images/Stage2/D2.jpg)
 
-### ❌ DELETE 3: Scholarships with low hour requirements (Cascade delete)
-Requires modifying a foreign key to include ON DELETE CASCADE.
-![Before](images/Stage2/D3.jpg)
-
----
-
-## 🔄 UPDATE Queries
-
-> Each UPDATE query includes the purpose, SQL code, and screenshots showing the **before and after** state of the data.
-
-### ✏️ UPDATE 1: Reduce employee salary by 80% for low-budget departments
-Targets departments with a total budget below 100,000.
-![Before](images/Stage2/U1.jpg)
-
-### ✏️ UPDATE 2: Raise scholarship by 10% based on average payments
-Dynamically adjusts scholarship if payment average is higher.
-![Before](images/Stage2/U2.jpg)
-
-### ✏️ UPDATE 3: Add "israel-" prefix before '@' in student emails
-Used string manipulation to improve email consistency.
-![Before](images/Stage2/U3.jpg)
-
----
-
-## 🔐 Constraints Using `ALTER TABLE`
-
-> Each constraint added with `ALTER TABLE` is documented below, including an attempt to violate it and the resulting error message.
-
-### 🔧 Constraint 1: ON DELETE CASCADE for `takes_scholarship`
-Ensures that deleting a scholarship also deletes associated records in `takes_scholarship`.
-
-#### ✔️ Alter Command
+### ❌ DELETE 3: Delete scholarships with low hour requirements
 ```sql
 ALTER TABLE takes_scholarship
 DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
 ADD CONSTRAINT takes_scholarship_scholarship_id_fkey
 FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CASCADE;
 
+DELETE FROM Scholarship
+WHERE AnnualHours < 90;
+```
+![Before](images/Stage2/D3.jpg)
+
 ---
 
+## 🔄 UPDATE Queries
+
+### ✏️ UPDATE 1: Reduce salary by 80% in low-budget departments
+```sql
+UPDATE Employees
+SET salary = salary * 0.2
+WHERE department_id IN (
+    SELECT ub.department_id
+    FROM uses_budget ub
+    JOIN Budget b ON ub.budget_id = b.budget_id
+    GROUP BY ub.department_id
+    HAVING SUM(b.total_amount) < 100000
+);
+```
+![Before](images/Stage2/U1.jpg)
+
+### ✏️ UPDATE 2: Raise scholarship by 10% if payment average is higher
+```sql
+UPDATE Scholarship
+SET Amount = CASE
+    WHEN (SELECT AVG(p.amount)
+          FROM Payment p
+          JOIN takes_scholarship ts ON p.StudentID = ts.StudentID
+          WHERE ts.scholarship_id = Scholarship.scholarship_id) > Scholarship.Amount
+    THEN Scholarship.Amount * 1.1
+    ELSE Scholarship.Amount
+END;
+```
+![Before](images/Stage2/U2.jpg)
+
+### ✏️ UPDATE 3: Add prefix "israel-" before email @ sign
+```sql
+UPDATE Student
+SET Email = SUBSTRING(Email, 1, POSITION('@' IN Email) - 1) || 'israel-' || SUBSTRING(Email, POSITION('@' IN Email), LENGTH(Email))
+WHERE Email NOT LIKE '%israel-%';
+```
+![Before](images/Stage2/U3.jpg)
+
+---
+
+## 🔐 Constraints Using `ALTER TABLE`
+
+### 🔧 Constraint 1: ON DELETE CASCADE for `takes_scholarship`
+```sql
+ALTER TABLE takes_scholarship
+DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
+ADD CONSTRAINT takes_scholarship_scholarship_id_fkey
+FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CASCADE;
+```
+![Constraint](images/Stage2/Constraints1.jpg)
+
+### 🔧 Constraint 2: CHECK constraint on positive salary
+```sql
+ALTER TABLE Employees
+ADD CONSTRAINT positive_salary CHECK (salary > 0);
+```
+
+### 🔧 Constraint 3: DEFAULT value for scholarship amount
+```sql
+ALTER TABLE Scholarship
+ALTER COLUMN Amount SET DEFAULT 1000.00;
+```
+
+### 🔧 Constraint 4: NOT NULL for student first name
+```sql
+ALTER TABLE Student
+ALTER COLUMN FirstName SET NOT NULL;
+```
+
+---
+
+## ✅ Conclusion
+
+This project successfully demonstrates the design, implementation, and operation of a financial management database system for a university. Throughout the two project stages, we:
+
+- Designed a normalized relational database with ERD & DSD diagrams.
+- Implemented and populated the database using scripts and data generators.
+- Performed complex SQL operations including data analysis (SELECT), maintenance (UPDATE/DELETE), and constraint handling.
+- Demonstrated robust backup and recovery procedures.
+
+We gained deep insight into database modeling, query optimization, and real-world data operations.
 
 ---
