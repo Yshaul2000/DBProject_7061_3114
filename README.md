@@ -120,13 +120,115 @@ Links budgets to departments.
 
 ---
 
-## ✅ Conclusion
+---
 
-This system enables structured and efficient data management through table relationships, foreign keys, and normalization. The process involved:
-- Schema design
-- Entity relationship modeling
-- Data generation and insertion
-- Backup and restore
+# 📘 Stage 2 – Advanced SQL Queries & Constraints
+
+This section includes documentation and screenshots for advanced SQL queries (SELECT, DELETE, UPDATE) and constraint handling as required in Stage 2.
+
+---
+
+## 📊 SELECT Queries
+
+> A total of 8 SELECT queries were implemented. Each query is described and accompanied by screenshots of the query and its result (up to 5 rows).
+
+### 🔍 SELECT 1: Total payments per student per year
+Shows how much each student paid in total each year.
+![Query](images/Stage2/S1.jpg)
+![Result](images/Stage2/S1.jpg)
+
+### 🔍 SELECT 2: Monthly income summary from payments
+Calculates total income grouped by month and type of payment.
+![Query](images/Stage2/S2.jpg)
+![Result](images/Stage2/S2.jpg)
+
+### 🔍 SELECT 3: Payments in the last month
+Retrieves recent payments including payment type and topic.
+![Query](images/Stage2/S3.jpg)
+![Result](images/Stage2/S3.jpg)
+
+### 🔍 SELECT 4: Departments with total budgets over 50,000
+Displays departments that have received significant funding.
+![Query](images/Stage2/S4.jpg)
+![Result](images/Stage2/S4.jpg)
+
+### 🔍 SELECT 5: Employees by hire year and department
+Gives insight into employees, their hiring date and salary.
+![Query](images/Stage2/S5.jpg)
+![Result](images/Stage2/S5.jpg)
+
+### 🔍 SELECT 6: Average payment amount by type
+Shows statistical data about payment types.
+![Query](images/Stage2/S6.jpg)
+![Result](images/Stage2/S6.jpg)
+
+### 🔍 SELECT 7: Students receiving aid but no scholarship
+Highlights financially struggling students.
+![Query](images/Stage2/S7.jpg)
+![Result](images/Stage2/S7.jpg)
+
+### 🔍 SELECT 8: Highest scholarship granted per year
+Displays top scholarship per year based on approval date.
+![Query](images/Stage2/S8.jpg)
+![Result](images/Stage2/S8.jpg)
+
+---
+
+## 🗑️ DELETE Queries
+
+> Each DELETE query includes a description, the SQL code, and screenshots showing the database **before and after** the deletion.
+
+### ❌ DELETE 1: Old small payments (older than 2 years, below average)
+Removes outdated, small-value transactions.
+![Before](images/Stage2/D1.jpg)
+![After](images/Stage2/D1.jpg)
+
+### ❌ DELETE 2: Employees earning between 70,000 and 90,000
+Used to clean up high-salary ranges.
+![Before](images/Stage2/D2.jpg)
+![After](images/Stage2/D2.jpg)
+
+### ❌ DELETE 3: Scholarships with low hour requirements (Cascade delete)
+Requires modifying a foreign key to include ON DELETE CASCADE.
+![Before](images/Stage2/D3.jpg)
+![After](images/Stage2/D3.jpg)
+
+---
+
+## 🔄 UPDATE Queries
+
+> Each UPDATE query includes the purpose, SQL code, and screenshots showing the **before and after** state of the data.
+
+### ✏️ UPDATE 1: Reduce employee salary by 80% for low-budget departments
+Targets departments with a total budget below 100,000.
+![Before](images/Stage2/U1.jpg)
+![After](images/Stage2/U1.jpg)
+
+### ✏️ UPDATE 2: Raise scholarship by 10% based on average payments
+Dynamically adjusts scholarship if payment average is higher.
+![Before](images/Stage2/U2.jpg)
+![After](images/Stage2/U2.jpg)
+
+### ✏️ UPDATE 3: Add "israel-" prefix before '@' in student emails
+Used string manipulation to improve email consistency.
+![Before](images/Stage2/U3.jpg)
+![After](images/Stage2/U3.jpg)
+
+---
+
+## 🔐 Constraints Using `ALTER TABLE`
+
+> Each constraint added with `ALTER TABLE` is documented below, including an attempt to violate it and the resulting error message.
+
+### 🔧 Constraint 1: ON DELETE CASCADE for `takes_scholarship`
+Ensures that deleting a scholarship also deletes associated records in `takes_scholarship`.
+
+#### ✔️ Alter Command
+```sql
+ALTER TABLE takes_scholarship
+DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
+ADD CONSTRAINT takes_scholarship_scholarship_id_fkey
+FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CASCADE;
 
 ---
 
