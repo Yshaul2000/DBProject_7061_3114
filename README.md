@@ -246,14 +246,13 @@ DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
 ADD CONSTRAINT takes_scholarship_scholarship_id_fkey
 FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CASCADE;
 ```
-![Constraint](images/Stage2/Constraints1.jpg)
 
 ### 🔧 Constraint 1: CHECK constraint on positive salary
 ```sql
 ALTER TABLE Employees
 ADD CONSTRAINT positive_salary CHECK (salary > 0);
 ```
-![Constraint](images/Stage2/C1.jpg)
+![Constraint](images/Stage2/Constraints1.jpg)
 
 ### 🔧 Constraint 2: DEFAULT value for scholarship amount
 ```sql
