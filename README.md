@@ -33,7 +33,7 @@
 ![תרשים ERD של המחלקה](images/Stage1/ERD.jpg)
 
 ## תרשים DSD
-![תרשים DSD של המחלקה](images/DSD.jpg)
+![תרשים DSD של המחלקה](images/Stage1/DSD.jpg)
 
 
 
