@@ -13,15 +13,17 @@ This project is a university financial department database management system. It
 - **Unit**: Financial Department  
 
 ---
-
 ## 📌 Table of Contents
 1. [Overview](#overview)
 2. [ERD and DSD Diagrams](#erd-and-dsd-diagrams)
 3. [Data Structure Description](#data-structure-description)
 4. [Data Insertion Methods](#data-insertion-methods)
 5. [Backup & Restore](#backup--restore)
-6. [Conclusion](#conclusion)
-
+6. [Stage 2 – Advanced SQL Queries & Constraints](#-stage-2--advanced-sql-queries--constraints)
+   - [SELECT Queries](#select-queries)
+   - [DELETE Queries](#delete-queries)
+   - [UPDATE Queries](#update-queries)
+   - [Constraints Using ALTER TABLE](#constraints-using-alter-table)
 ---
 
 ## 🧾 Overview
