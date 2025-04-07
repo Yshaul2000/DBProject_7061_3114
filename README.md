@@ -237,16 +237,6 @@ WHERE Email NOT LIKE '%israel-%';
 
 ---
 
-## 🔐 Constraints Using `ALTER TABLE`
-
-### 🔧 Constraint ??? ינון תתקן אחי: ON DELETE CASCADE for `takes_scholarship`
-```sql
-ALTER TABLE takes_scholarship
-DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
-ADD CONSTRAINT takes_scholarship_scholarship_id_fkey
-FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CASCADE;
-```
-
 ### 🔧 Constraint 1: CHECK constraint on positive salary
 ```sql
 ALTER TABLE Employees
