@@ -135,42 +135,34 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 ### 🔍 SELECT 1: Total payments per student per year
 Shows how much each student paid in total each year.
 ![Query](images/Stage2/S1.jpg)
-![Result](images/Stage2/S1.jpg)
 
 ### 🔍 SELECT 2: Monthly income summary from payments
 Calculates total income grouped by month and type of payment.
 ![Query](images/Stage2/S2.jpg)
-![Result](images/Stage2/S2.jpg)
 
 ### 🔍 SELECT 3: Payments in the last month
 Retrieves recent payments including payment type and topic.
 ![Query](images/Stage2/S3.jpg)
-![Result](images/Stage2/S3.jpg)
 
 ### 🔍 SELECT 4: Departments with total budgets over 50,000
 Displays departments that have received significant funding.
 ![Query](images/Stage2/S4.jpg)
-![Result](images/Stage2/S4.jpg)
 
 ### 🔍 SELECT 5: Employees by hire year and department
 Gives insight into employees, their hiring date and salary.
 ![Query](images/Stage2/S5.jpg)
-![Result](images/Stage2/S5.jpg)
 
 ### 🔍 SELECT 6: Average payment amount by type
 Shows statistical data about payment types.
 ![Query](images/Stage2/S6.jpg)
-![Result](images/Stage2/S6.jpg)
 
 ### 🔍 SELECT 7: Students receiving aid but no scholarship
 Highlights financially struggling students.
 ![Query](images/Stage2/S7.jpg)
-![Result](images/Stage2/S7.jpg)
 
 ### 🔍 SELECT 8: Highest scholarship granted per year
 Displays top scholarship per year based on approval date.
 ![Query](images/Stage2/S8.jpg)
-![Result](images/Stage2/S8.jpg)
 
 ---
 
@@ -181,17 +173,14 @@ Displays top scholarship per year based on approval date.
 ### ❌ DELETE 1: Old small payments (older than 2 years, below average)
 Removes outdated, small-value transactions.
 ![Before](images/Stage2/D1.jpg)
-![After](images/Stage2/D1.jpg)
 
 ### ❌ DELETE 2: Employees earning between 70,000 and 90,000
 Used to clean up high-salary ranges.
 ![Before](images/Stage2/D2.jpg)
-![After](images/Stage2/D2.jpg)
 
 ### ❌ DELETE 3: Scholarships with low hour requirements (Cascade delete)
 Requires modifying a foreign key to include ON DELETE CASCADE.
 ![Before](images/Stage2/D3.jpg)
-![After](images/Stage2/D3.jpg)
 
 ---
 
@@ -202,17 +191,14 @@ Requires modifying a foreign key to include ON DELETE CASCADE.
 ### ✏️ UPDATE 1: Reduce employee salary by 80% for low-budget departments
 Targets departments with a total budget below 100,000.
 ![Before](images/Stage2/U1.jpg)
-![After](images/Stage2/U1.jpg)
 
 ### ✏️ UPDATE 2: Raise scholarship by 10% based on average payments
 Dynamically adjusts scholarship if payment average is higher.
 ![Before](images/Stage2/U2.jpg)
-![After](images/Stage2/U2.jpg)
 
 ### ✏️ UPDATE 3: Add "israel-" prefix before '@' in student emails
 Used string manipulation to improve email consistency.
 ![Before](images/Stage2/U3.jpg)
-![After](images/Stage2/U3.jpg)
 
 ---
 
