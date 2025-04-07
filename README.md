@@ -1,4 +1,4 @@
-# DBProject
+﻿# DBProject
 
 
 # דוח פרויקט - ניהול מערכת בסיסי נתונים של אוניברסיטאות - המחלקה הפיננסית
@@ -36,20 +36,101 @@
 ![תרשים DSD של המחלקה](images/DSD.jpg)
 
 
+
+
+
+
+
+
+
+
+
+
 ## תיאור מבני הנתונים
 
-הטבלאות הבאות נוצרו כחלק מהמערכת:
+The following tables were created as part of the system:
+• Department: Represents a department within the university.
+• Employees: Represents an employee within the university.
+• Budget: Represents the university's annual budget.
+• uses_budget: An entity connecting departments and budgets.
+• Student: Represents a student.
+• Payment: Represents a payment made by a student.
+• Scholarship: Represents a scholarship granted to a student.
+• takes_scholarship: An entity connecting scholarships to students.
+• Financial_Aid: Represents financial aid given to a student.
+• receives_aid: An entity connecting students to financial aid.
 
-- `Department`
-- `Employees`
-- `Budget`
-- `uses_budget`
-- `Student`
-- `Payment`
-- `Scholarship`
-- `takes_scholarship`
-- `Financial_Aid`
-- `receives_aid`
+Details of departments
+
+Employees
+Represents an employee within the university. Includes:
+• employee_id: Unique identifier of the employee.
+• name: Employee's name.
+• salary: Employee's salary.
+• hire_date: Date of employment.
+• department_id: Department identifier to which the employee is associated (Foreign key).
+Budget
+Represents the university's annual budget. Includes:
+• budget_id: Unique identifier of the budget.
+• total_amount: Total amount of the budget.
+• budget_year: The year of the budget.
+uses_budget
+An entity connecting departments and budgets. Includes:
+• department_id: Department identifier (Foreign key).
+• budget_id: Budget identifier (Foreign key).
+Student
+Represents a student. Includes:
+• StudentID: Unique identifier of the student.
+• FirstName: First name.
+• LastName: Last name.
+• Email: Email address.
+Payment (Weak Entity)
+Represents a payment made by a student. Includes:
+• payment_id: Unique identifier of the payment.
+• StudentID: Identifier of the student making the payment (Foreign key).
+• amount: Payment amount.
+• payment_date: Date of the payment.
+• type_payment: Type of payment (e.g., Tuition).
+• topic: Payment topic (if applicable).
+Scholarship
+Represents a scholarship granted to a student. Includes:
+• scholarship_id: Unique identifier of the scholarship.
+• Name: Scholarship name.
+• Amount: Scholarship amount.
+• AnnualHours: Annual hours required to maintain the scholarship.
+takes_scholarship
+An entity connecting scholarships to students. Includes:
+• scholarship_id: Scholarship identifier (Foreign key).
+• StudentID: Student identifier (Foreign key).
+• approval_date: Date of approval.
+Financial_Aid
+Represents financial aid given to a student. Includes:
+• aid_id: Unique identifier of the financial aid.
+• aid_type: Type of aid (e.g., Grant or Loan).
+• aid_amount: Amount of aid.
+• approval_date: Date of approval.
+• repayment_due: Due date for repayment (if applicable).
+receives_aid
+An entity connecting students to financial aid. Includes:
+• StudentID: Student identifier (Foreign key).
+• aid_id: Aid identifier (Foreign key).
+• application_date: Date of application.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 💾 **קובץ יצירת הטבלאות מצורף גם הוא בתיקייה שלב א.**
 
