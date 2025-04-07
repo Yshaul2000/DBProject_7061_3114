@@ -239,7 +239,7 @@ WHERE Email NOT LIKE '%israel-%';
 
 ## 🔐 Constraints Using `ALTER TABLE`
 
-### 🔧 Constraint 1: ON DELETE CASCADE for `takes_scholarship`
+### 🔧 Constraint ??? ינון תתקן אחי: ON DELETE CASCADE for `takes_scholarship`
 ```sql
 ALTER TABLE takes_scholarship
 DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
@@ -248,26 +248,27 @@ FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CA
 ```
 ![Constraint](images/Stage2/Constraints1.jpg)
 
-### 🔧 Constraint 2: CHECK constraint on positive salary
+### 🔧 Constraint 1: CHECK constraint on positive salary
 ```sql
 ALTER TABLE Employees
 ADD CONSTRAINT positive_salary CHECK (salary > 0);
 ```
 ![Constraint](images/Stage2/C1.jpg)
 
-### 🔧 Constraint 3: DEFAULT value for scholarship amount
+### 🔧 Constraint 2: DEFAULT value for scholarship amount
 ```sql
 ALTER TABLE Scholarship
 ALTER COLUMN Amount SET DEFAULT 1000.00;
 ```
-![Constraint](images/Stage2/C3.jpg)
+![Constraint](images/Stage2/C2.jpg)
 
 
-### 🔧 Constraint 4: NOT NULL for student first name
+### 🔧 Constraint 3: NOT NULL for student first name
 ```sql
 ALTER TABLE Student
 ALTER COLUMN FirstName SET NOT NULL;
 ```
+![Constraint](images/Stage2/C3.jpg)
 
 ---
 
