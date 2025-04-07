@@ -253,12 +253,15 @@ FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CA
 ALTER TABLE Employees
 ADD CONSTRAINT positive_salary CHECK (salary > 0);
 ```
+![Constraint](images/Stage2/C1.jpg)
 
 ### 🔧 Constraint 3: DEFAULT value for scholarship amount
 ```sql
 ALTER TABLE Scholarship
 ALTER COLUMN Amount SET DEFAULT 1000.00;
 ```
+![Constraint](images/Stage2/C3.jpg)
+
 
 ### 🔧 Constraint 4: NOT NULL for student first name
 ```sql
