@@ -4,10 +4,10 @@
 ALTER TABLE Employees
 ADD CONSTRAINT positive_salary CHECK (salary > 0);
 
--- אילוץ DEFAULT בטבלה Payment: הגדרת סוג תשלום ברירת מחדל
-ALTER TABLE Payment
-ALTER COLUMN type_payment SET DEFAULT 'אחר';
-
--- אילוץ UNIQUE בטבלה Scholarship: בדיקה ששם המלגה ייחודי
+-- אילוץ DEFAULT בטבלה Scholarship: הגדרת סכום ברירת מחדל למלגה
 ALTER TABLE Scholarship
-ADD CONSTRAINT unique_scholarship_name UNIQUE (Name);
+ALTER COLUMN Amount SET DEFAULT 1000.00;
+
+-- אילוץ NOT NULL בטבלה Student: הגדרת שם פרטי כחובה
+ALTER TABLE Student
+ALTER COLUMN FirstName SET NOT NULL;
