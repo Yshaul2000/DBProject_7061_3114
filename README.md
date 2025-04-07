@@ -1,6 +1,6 @@
 # DBProject - University Financial Department Database System
 
-## 📘 Project Report (Hebrew Below)
+## 📘 Project Report 
 
 This project is a university financial department database management system. It was developed as part of a database course project.
 
