@@ -127,6 +127,7 @@ Links budgets to departments.
 ---
 
 <br><br>
+
 # 📘 Stage 2 – Advanced SQL Queries & Constraints
 
 This section includes documentation and screenshots for advanced SQL queries (SELECT, DELETE, UPDATE) and constraint handling as required in Stage 2.
@@ -196,6 +197,7 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 ---
 
 <br>
+
 ## 🗑️ DELETE Queries
 
 ### ❌ DELETE 1: Remove old small payments
@@ -244,6 +246,7 @@ WHERE AnnualHours < 90;
 ---
 
 <br>
+
 ## 🔄 UPDATE Queries
 
 ### ✏️ UPDATE 1: Reduce salary by 80% in low-budget departments
