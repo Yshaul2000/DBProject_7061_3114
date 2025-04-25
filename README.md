@@ -137,27 +137,59 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 > A total of 8 SELECT queries were implemented. Each query is described and accompanied by screenshots.
 
 ### 🔍 SELECT 1: Total payments per student per year
+
+📘 **Background**: A student once requested a refund, claiming they paid twice. Investigation revealed the finance office lacked a clear annual payment summary per student.  
+✅ **Benefit**: This report helps the finance department track student income, detect anomalies or duplicates, and give accurate responses to student inquiries.
+
 ![Query](images/Stage2/S1.jpg)
 
 ### 🔍 SELECT 2: Monthly income summary from payments
+
+📘 **Background**: As the quarter ended, the university’s management requested a summarized monthly income report to monitor cash flow.  
+✅ **Benefit**: Enables budget planning and helps evaluate financial stability month by month.
+
 ![Query](images/Stage2/S2.jpg)
 
 ### 🔍 SELECT 3: Payments in the last month
+
+📘 **Background**: A new online payment system was launched. The administration wanted to assess how many students actually used it in the last month.  
+✅ **Benefit**: Tracks adoption of the new platform and allows real-time financial activity monitoring.
+
 ![Query](images/Stage2/S3.jpg)
 
 ### 🔍 SELECT 4: Departments with total budgets over 50,000
+
+📘 **Background**: A department complained of unequal funding. The administration needed a clear comparison of budgets between departments.  
+✅ **Benefit**: Helps identify well-funded departments and supports a fair reallocation of resources.
+
 ![Query](images/Stage2/S4.jpg)
 
 ### 🔍 SELECT 5: Employees by hire year and department
+
+📘 **Background**: HR wanted insights into which departments had large hiring waves and in which years.  
+✅ **Benefit**: Supports workforce planning and helps predict future hiring needs.
+
 ![Query](images/Stage2/S5.jpg)
 
 ### 🔍 SELECT 6: Average payment amount by type
+
+📘 **Background**: The finance office wanted to compare types of student payments — for example, course fees vs. administrative charges.  
+✅ **Benefit**: Helps assess pricing strategy and reveals key income sources.
+
 ![Query](images/Stage2/S6.jpg)
 
 ### 🔍 SELECT 7: Students receiving aid but no scholarship
+
+📘 **Background**: Aid requests were rising. The administration wanted to identify students receiving financial aid who might also qualify for scholarships but hadn’t applied.  
+✅ **Benefit**: Allows targeted outreach and better scholarship utilization to reduce aid dependency.
+
 ![Query](images/Stage2/S7.jpg)
 
 ### 🔍 SELECT 8: Highest scholarship granted per year
+
+📘 **Background**: The student newspaper requested information about the highest awarded scholarships per year.  
+✅ **Benefit**: Promotes transparency and encourages students to apply for high-value scholarships.
+
 ![Query](images/Stage2/S8.jpg)
 
 ---
@@ -165,6 +197,10 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 ## 🗑️ DELETE Queries
 
 ### ❌ DELETE 1: Remove old small payments
+
+📘 **Background**: During database backup, it was discovered that the Payment table held outdated and low-value data no longer needed.  
+✅ **Benefit**: Cleaning old data improves performance and reduces storage overhead.
+
 ```sql
 DELETE FROM Payment
 WHERE payment_date < CURRENT_DATE - INTERVAL '2 years'
@@ -177,6 +213,10 @@ WHERE payment_date < CURRENT_DATE - INTERVAL '2 years'
 ![Before](images/Stage2/D1.jpg)
 
 ### ❌ DELETE 2: Delete employees with salary between 70,000 and 90,000
+
+📘 **Background**: An internal audit flagged a suspicious salary range (70k–90k) for employees with unclear roles.  
+✅ **Benefit**: Quickly removes potentially fraudulent or incorrect employee entries during a cleanup phase.
+
 ```sql
 DELETE FROM Employees
 WHERE salary between 70000 and 90000;
@@ -184,6 +224,10 @@ WHERE salary between 70000 and 90000;
 ![Before](images/Stage2/D2.jpg)
 
 ### ❌ DELETE 3: Delete scholarships with low hour requirements
+
+📘 **Background**: Scholarships with fewer than 90 annual service hours were deemed ineffective in terms of student contribution.  
+✅ **Benefit**: Ensures every scholarship involves a minimum amount of community service and provides better impact.
+
 ```sql
 ALTER TABLE takes_scholarship
 DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
@@ -200,6 +244,10 @@ WHERE AnnualHours < 90;
 ## 🔄 UPDATE Queries
 
 ### ✏️ UPDATE 1: Reduce salary by 80% in low-budget departments
+
+📘 **Background**: Budget cuts were applied in several departments. Instead of layoffs, the university opted to reduce salaries in underfunded departments.  
+✅ **Benefit**: Maintains employment while staying within budgetary limits.
+
 ```sql
 UPDATE Employees
 SET salary = salary * 0.2
@@ -214,6 +262,10 @@ WHERE department_id IN (
 ![Before](images/Stage2/U1.jpg)
 
 ### ✏️ UPDATE 2: Raise scholarship by 10% if payment average is higher
+
+📘 **Background**: Students receiving scholarships were still paying more than their awarded amount on average.  
+✅ **Benefit**: Ensures scholarship values are adjusted to match actual educational expenses, promoting equity.
+
 ```sql
 UPDATE Scholarship
 SET Amount = CASE
@@ -228,6 +280,10 @@ END;
 ![Before](images/Stage2/U2.jpg)
 
 ### ✏️ UPDATE 3: Add prefix "israel-" before email @ sign
+
+📘 **Background**: Due to integration with a new government verification system, all student emails had to include the "israel-" prefix before the @ symbol.  
+✅ **Benefit**: Ensures email addresses conform to new national digital ID systems.
+
 ```sql
 UPDATE Student
 SET Email = SUBSTRING(Email, 1, POSITION('@' IN Email) - 1) || 'israel-' || SUBSTRING(Email, POSITION('@' IN Email), LENGTH(Email))
@@ -273,3 +329,4 @@ This project successfully demonstrates the design, implementation, and operation
 We gained deep insight into database modeling, query optimization, and real-world data operations.
 
 ---
+
