@@ -127,6 +127,9 @@ Links budgets to departments.
 ---
 
 
+
+
+
 # 📘 Stage 2 – Advanced SQL Queries & Constraints
 
 This section includes documentation and screenshots for advanced SQL queries (SELECT, DELETE, UPDATE) and constraint handling as required in Stage 2.
