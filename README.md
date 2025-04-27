@@ -1,4 +1,3 @@
-
 # DBProject - University Financial Department Database System
 
 ## 📘 Project Report 
@@ -25,6 +24,7 @@ This project is a university financial department database management system. It
    - [SELECT Queries](#select-queries)
    - [DELETE Queries](#delete-queries)
    - [UPDATE Queries](#update-queries)
+   - [Rollback & Commit Transactions](#rollback--commit-transactions)
    - [Constraints Using ALTER TABLE](#constraints-using-alter-table)
 7. [Conclusion](#conclusion)
 
@@ -147,7 +147,7 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 
 ### 🔍 SELECT 2: Monthly income summary from payments
 
-📘 **Background**: As the quarter ended, the university’s management requested a summarized monthly income report to monitor cash flow.  
+📘 **Background**: As the quarter ended, the university's management requested a summarized monthly income report to monitor cash flow.  
 ✅ **Benefit**: Enables budget planning and helps evaluate financial stability month by month.
 
 ![Query](images/Stage2/S2.jpg)
@@ -182,7 +182,7 @@ This section includes documentation and screenshots for advanced SQL queries (SE
 
 ### 🔍 SELECT 7: Students receiving aid but no scholarship
 
-📘 **Background**: Aid requests were rising. The administration wanted to identify students receiving financial aid who might also qualify for scholarships but hadn’t applied.  
+📘 **Background**: Aid requests were rising. The administration wanted to identify students receiving financial aid who might also qualify for scholarships but hadn't applied.  
 ✅ **Benefit**: Allows targeted outreach and better scholarship utilization to reduce aid dependency.
 
 ![Query](images/Stage2/S7.jpg)
@@ -299,6 +299,68 @@ WHERE Email NOT LIKE '%israel-%';
 
 ---
 
+<br>
+
+## 🔄 Rollback & Commit Transactions
+
+### 🔙 Rollback Transaction
+
+📘 **Background**: Due to a recent cyberattack on Israel's national systems, all updates involving sensitive data were temporarily suspended. As part of this response, the decision was made to rollback any changes to student email addresses, including the modification that was intended to prepend "israel-" to student emails.  
+✅ **Benefit**: This ensures that no unintended changes were made to critical contact information, maintaining the integrity and security of the university's student database.
+
+```sql
+-- Start of rollback transaction
+BEGIN;
+
+-- Perform the update (add 'israel-' before '@' in emails)
+UPDATE Student
+SET Email = SUBSTRING(Email, 1, POSITION('@' IN Email) - 1) || 'israel-' || SUBSTRING(Email, POSITION('@' IN Email), LENGTH(Email))
+WHERE Email NOT LIKE '%israel-%';
+
+-- Check current state after update (before rollback)
+SELECT StudentID, Email FROM Student WHERE Email LIKE '%israel-%';
+
+-- Rollback the transaction to undo the update
+ROLLBACK;
+
+-- Check state again to confirm emails returned to original form
+SELECT StudentID, Email FROM Student WHERE Email NOT LIKE '%israel-%';
+```
+![Rollback](images/Stage2/Rollback.jpg)
+
+### ✅ Commit Transaction
+
+📘 **Background**: In celebration of Israel's 77th Independence Day, the government has decided that for students receiving scholarships, if their required volunteer hours are exactly 77, an additional 77 NIS will be added to their scholarship amount.  
+✅ **Benefit**: This update ensures that students who meet this specific criteria are rewarded appropriately, aligning the university's scholarship policies with the national initiative.
+
+```sql
+-- Start of commit transaction
+BEGIN;
+
+-- Update: Add 77 NIS to the Amount of scholarships with exactly 77 AnnualHours
+UPDATE Scholarship
+SET Amount = Amount + 77
+WHERE AnnualHours = 77;
+
+-- Preview: See the scholarships that were updated BEFORE committing
+SELECT scholarship_id, Name, Amount, AnnualHours
+FROM Scholarship
+WHERE AnnualHours = 77;
+
+-- Finalize the update
+COMMIT;
+
+-- Confirm the changes AFTER committing
+SELECT scholarship_id, Name, Amount, AnnualHours
+FROM Scholarship
+WHERE AnnualHours = 77;
+```
+![Commit](images/Stage2/Commit.jpg)
+
+---
+
+## 🔧 Constraints Using ALTER TABLE
+
 ### 🔧 Constraint 1: CHECK constraint on positive salary
 ```sql
 ALTER TABLE Employees
@@ -331,8 +393,8 @@ This project successfully demonstrates the design, implementation, and operation
 - Implemented and populated the database using scripts and data generators.
 - Performed complex SQL operations including data analysis (SELECT), maintenance (UPDATE/DELETE), and constraint handling.
 - Demonstrated robust backup and recovery procedures.
+- Implemented transaction control with COMMIT and ROLLBACK operations to maintain data integrity.
 
 We gained deep insight into database modeling, query optimization, and real-world data operations.
 
 ---
-
