@@ -401,10 +401,10 @@ ALTER COLUMN FirstName SET NOT NULL;
 ![DSD](images/Stage3/DSD.jpg)
 
 ### ERD (Dormitory)
-![ERD](images/Stage3/Dormitory_erd.jpg)
+![ERD](images/Stage3/Dormitory_erd.png)
 
 ### DSD (Dormitory)
-![DSD](images/Stage3/Dormitory_dsd.png)
+![DSD](images/Stage3/Dormitory_dsd.jpg)
 
 ### ERD (Integration)
 ![ERD](images/Stage3/merge_erd.png)
