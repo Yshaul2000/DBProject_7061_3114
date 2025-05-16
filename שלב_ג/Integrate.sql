@@ -3,7 +3,6 @@
 CREATE EXTENSION IF NOT EXISTS postgres_fdw;
 
 -- 2. Create a server object that defines the connection to the remote database.
---    Replace 'localhost', 'Group_database', and '5432' with your actual server details.
 CREATE SERVER group_db_server
 FOREIGN DATA WRAPPER postgres_fdw
 OPTIONS (host 'localhost', dbname 'Group_database', port '5432');
