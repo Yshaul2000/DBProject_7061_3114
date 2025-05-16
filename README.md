@@ -393,9 +393,10 @@ ALTER COLUMN FirstName SET NOT NULL;
 
 
 
-# 🔗 Stage 3 – Data Integration Phase
+# 🔗 Stage 3 – Integration and Views
 
-📜 This stage focuses on integrating the Financial Department database with the Dormitory Management database, a key aspect of the university management system. The goal is to create a unified database that allows for a comprehensive view of student-related information, including financial and residential data.
+📜This stage focuses on integrating the Financial Department database with the Dormitory Management database, a key aspect of the university management system. The goal is to create a unified database that allows for a comprehensive view of student-related information, including financial and residential data.
+In addition, this stage also includes the creation of SQL views from the perspective of our department, as well as from the perspective of the integrated department, in order to present relevant combined data tailored to the needs of each side.
 ---
 
 ## 🗂️ ERD and DSD Diagrams
@@ -837,21 +838,6 @@ FROM maintenance_request_remote;
 
 -- Verify the data in the local 'Maintenance_Request' table.
 SELECT * FROM Maintenance_Request;
-
-
--- 14. Delete all foreign tables created to access the remote database, after performing the
--- integration, decisions, and information integration.
-DROP FOREIGN TABLE apartment_remote;
-DROP FOREIGN TABLE building_remote;
-DROP FOREIGN TABLE dorm_management_remote;
-DROP FOREIGN TABLE lease_remote;
-DROP FOREIGN TABLE maintenance_request_remote;
-DROP FOREIGN TABLE rental_remote;
-DROP FOREIGN TABLE room_remote;
-DROP FOREIGN TABLE student_remote;
-
-
-
 
 ```
 
