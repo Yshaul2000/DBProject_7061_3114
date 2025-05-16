@@ -456,7 +456,7 @@ This defines how your local user will connect to the remote database (replace cr
 ```sql
 CREATE USER MAPPING FOR current_user
 SERVER group_db_server
-OPTIONS (user 'yshaul@g.jct.ac.il', password '5TxJQ5zC');
+OPTIONS (user '*********', password '*******');
 ```
 
 ---
