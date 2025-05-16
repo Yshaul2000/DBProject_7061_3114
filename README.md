@@ -385,6 +385,186 @@ ALTER COLUMN FirstName SET NOT NULL;
 
 ---
 
+<br><br>
+
+# 🔗 Stage 3 – Data Integration Phase
+
+This section documents the integration process between the **local financial system** and the **remote dormitory management database**, including schema updates, foreign table handling, and data merging operations.
+
+---
+
+## 🗂️ ERD and DSD Diagrams
+
+### ERD (Updated – Integrated)
+![ERD](images/Stage3/ERD_updated.jpg)
+
+### DSD (Updated – Integrated)
+![DSD](images/Stage3/DSD_updated.jpg)
+
+---
+
+## 🧠 Integration Decisions
+
+- Integration was done using PostgreSQL's `postgres_fdw` foreign data wrapper to allow direct querying of the remote database.
+- Remote tables were **mirrored** as foreign tables in the local database, then copied into newly created local tables.
+- Student data was merged using a **+400 ID offset** to avoid primary key collisions.
+- New columns were added to the `Student` table to accommodate remote attributes like gender, phone, and major.
+- Foreign tables were **dropped after integration** for cleanliness and security.
+
+---
+
+## 📝 Integration Process and SQL Commands
+
+> The following key SQL commands were used in the integration process. Each command includes a short explanation of what it does and why it was used.
+
+### 1. Enable the Foreign Data Wrapper
+
+This extension allows PostgreSQL to access tables from another PostgreSQL database.
+
+```sql
+CREATE EXTENSION IF NOT EXISTS postgres_fdw;
+```
+
+---
+
+### 2. Define the Connection to the Remote Server
+
+This command creates a server definition pointing to the external group project database.
+
+```sql
+CREATE SERVER group_db_server
+FOREIGN DATA WRAPPER postgres_fdw
+OPTIONS (host 'localhost', dbname 'Group_database', port '5432');
+```
+
+---
+
+### 3. Create User Mapping for Authentication
+
+This defines how your local user will connect to the remote database (replace credentials as needed).
+
+```sql
+CREATE USER MAPPING FOR current_user
+SERVER group_db_server
+OPTIONS (user 'yshaul@g.jct.ac.il', password '5TxJQ5zC');
+```
+
+---
+
+### 4. Access the Remote Student Table
+
+A foreign table is created that represents the `student` table in the remote database.
+
+```sql
+CREATE FOREIGN TABLE student_remote (
+    studentid INTEGER,
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    gender gender_type,
+    dateofbirth DATE,
+    enrollmentdate DATE,
+    phonenumber VARCHAR(16),
+    email VARCHAR(50),
+    major major_type
+) SERVER group_db_server
+OPTIONS (schema_name 'public', table_name 'student');
+```
+
+---
+
+### 5. Modify Local Student Table
+
+Add new columns to support integration with the remote student table.
+
+```sql
+ALTER TABLE Student
+ADD COLUMN gender gender_type,
+ADD COLUMN dateofbirth DATE,
+ADD COLUMN enrollmentdate DATE,
+ADD COLUMN phonenumber VARCHAR(16),
+ADD COLUMN major major_type;
+```
+
+You can populate these new fields with dummy/random values using the following logic:
+
+```sql
+UPDATE Student
+SET
+    gender = (CASE WHEN random() < 0.5 THEN 'Male' ELSE 'Female' END)::gender_type_new,
+    dateofbirth = CURRENT_DATE - interval '1 year' * (18 + random() * 12),
+    enrollmentdate = CURRENT_DATE - interval '1 year' * (random() * 5),
+    phonenumber = '+972 ' || lpad(floor(random() * 99)::text, 2, '0') || '-' ||
+                  lpad(floor(random() * 999)::text, 3, '0') || '-' ||
+                  lpad(floor(random() * 9999)::text, 4, '0'),
+    major = (CASE WHEN random() < 0.5 THEN 'Computer Science' ELSE 'Biology' END)::major_type;
+```
+
+---
+
+### 6. Integrate Student Data
+
+This inserts remote students into the local `Student` table, offsetting the IDs by 400.
+
+```sql
+INSERT INTO Student (StudentID, FirstName, LastName, Email, gender, dateofbirth, enrollmentdate, phonenumber, major)
+SELECT studentid + 400, firstname, lastname, email, gender, dateofbirth, enrollmentdate, phonenumber, major
+FROM student_remote;
+```
+
+---
+
+### 7. Integrate Dormitory Management Tables
+
+For each of the following tables, the process includes:
+
+1. Creating a foreign table.
+2. Creating a local table.
+3. Copying data via `INSERT INTO ... SELECT ...`.
+
+These tables include:
+
+- Dorm_Management
+- Building
+- Apartment
+- Room
+- Lease
+- Rental
+- Maintenance_Request
+
+Each of these was fully migrated using foreign table access followed by local storage and relational constraints.
+
+---
+
+### 8. Clean-Up
+
+After data was successfully copied, all foreign tables were dropped to finalize the integration.
+
+```sql
+DROP FOREIGN TABLE apartment_remote;
+DROP FOREIGN TABLE building_remote;
+DROP FOREIGN TABLE dorm_management_remote;
+DROP FOREIGN TABLE lease_remote;
+DROP FOREIGN TABLE maintenance_request_remote;
+DROP FOREIGN TABLE rental_remote;
+DROP FOREIGN TABLE room_remote;
+DROP FOREIGN TABLE student_remote;
+```
+
+---
+
+## ✅ Conclusion
+
+In this integration stage, we:
+
+- Connected two separate databases using PostgreSQL foreign data wrappers.
+- Merged student and dormitory information into the financial system.
+- Ensured data consistency and normalized design through referential integrity.
+- Demonstrated advanced SQL skills with DDL, DML, and data synchronization logic.
+
+This provides a comprehensive, scalable university database system.
+
+---
+
 ## ✅ Conclusion
 
 This project successfully demonstrates the design, implementation, and operation of a financial management database system for a university. Throughout the two project stages, we:
