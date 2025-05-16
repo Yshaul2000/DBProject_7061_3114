@@ -17,7 +17,6 @@ OPTIONS (user 'yshaul@g.jct.ac.il', password '5TxJQ5zC');
 ------------------------------------
 -- 4. Create a foreign table in the local database that represents the 'student' table in the remote database.
 --    This foreign table acts as a local interface to the remote table, enabling data integration.
---    Make sure the column definitions match the remote table's structure.
 CREATE FOREIGN TABLE student_remote (
     studentid INTEGER,
     firstname VARCHAR(50),
@@ -31,11 +30,11 @@ CREATE FOREIGN TABLE student_remote (
 ) SERVER group_db_server
 OPTIONS (schema_name 'public', table_name 'student');
 
--- 5. Select all data from the foreign table to verify the connection and data retrieval.
+-- Select all data from the foreign table to verify the connection and data retrieval.
 SELECT * FROM student_remote;
 
 ----------------------------------------------------------------------
--- 6. Alter the existing 'Student' table in the local database to add new columns.
+-- Alter the existing 'Student' table in the local database to add new columns.
 --    These columns are added to facilitate data integration between the 'Student' tables
 --    located in both the local and remote databases.
 ALTER TABLE Student
@@ -45,7 +44,7 @@ ADD COLUMN enrollmentdate DATE,
 ADD COLUMN phonenumber VARCHAR(16),
 ADD COLUMN major major_type;
 
--- 7. Update the 'Student' table with randomly generated data for the new columns.
+-- Update the 'Student' table with randomly generated data for the new columns.
 --    This assumes you want to populate these columns with some data for testing or initial setup.
 --    If you intend to insert specific data from the remote table, the subsequent INSERT statement will handle that.
 UPDATE Student
@@ -58,7 +57,7 @@ SET
                   lpad(floor(random() * 9999)::text, 4, '0'),
     major = (CASE WHEN random() < 0.5 THEN 'Computer Science' ELSE 'Biology' END)::major_type;
 
--- 8. Select all data from the 'Student' table to view the updated data.
+-- Select all data from the 'Student' table to view the updated data.
 SELECT * FROM Student;
 
 
@@ -69,15 +68,15 @@ INSERT INTO Student (StudentID, FirstName, LastName, Email, gender, dateofbirth,
 SELECT studentid + 400, firstname, lastname, email, gender, dateofbirth, enrollmentdate, phonenumber, major
 FROM student_remote;
 
--- 9. Select all data from the 'Student' table to view the data after the integration attempt.
+-- Select all data from the 'Student' table to view the data after the integration attempt.
 SELECT * FROM Student;
 
 
---10. Creating all tables that do not have a direct relationship, such as FK, to the Student table
+-- 5. Creating all tables that do not have a direct relationship, such as FK, to the Student table
 -- that is shared by both primary tables, by creating a foreign table, followed by a local table,
 --and copying the contents to it
 
--- 11.  Create a foreign table for the 'Dorm_Management' table in the remote database.
+-- 6.  Create a foreign table for the 'Dorm_Management' table in the remote database.
 --     This allows you to access dorm management information from the remote server.
 CREATE FOREIGN TABLE dorm_Management_remote (
     ManagerID INT,
@@ -101,10 +100,11 @@ INSERT INTO Dorm_Management (ManagerID, FullName, PhoneNumber, Email, HireDate)
 SELECT ManagerID, FullName, PhoneNumber, Email, HireDate
 FROM dorm_Management_remote;
 
+-- Verify the data in the local 'Dorm_Management' table.
 SELECT * FROM Dorm_Management ;
 
 
--- 12. Create a foreign table for the 'Building' table in the remote database.
+-- 7. Create a foreign table for the 'Building' table in the remote database.
 --     This allows you to access building information from the remote server.
 CREATE FOREIGN TABLE building_remote (
     BuildingID INT,
@@ -134,7 +134,7 @@ FROM building_remote;
 SELECT * FROM Building;
 
 
--- 13. Create a foreign table for the 'Apartment' table in the remote database.
+-- 8. Create a foreign table for the 'Apartment' table in the remote database.
 --     This allows you to access apartment information from the remote server.
 CREATE FOREIGN TABLE apartment_remote (
     ApartmentID INT NOT NULL,
@@ -165,7 +165,7 @@ FROM apartment_remote;
 SELECT * FROM Apartment;
 
 
--- 14. Create a foreign table for the 'Room' table in the remote database.
+-- 9. Create a foreign table for the 'Room' table in the remote database.
 --     This allows you to access room information from the remote server.
 CREATE FOREIGN TABLE room_remote (
     RoomID INT NOT NULL,
@@ -195,7 +195,7 @@ FROM room_remote;
 SELECT * FROM Room;
 
 
--- 15. Create a foreign table for the 'Lease' table in the remote database.
+-- 10. Create a foreign table for the 'Lease' table in the remote database.
 --     This allows you to access lease information from the remote server.
 CREATE FOREIGN TABLE lease_remote (
     LeaseID INT NOT NULL,
@@ -224,11 +224,11 @@ SELECT * FROM Lease;
 
 
 ---------------
--- Note: The following tables ('rental_remote' and 'maintenance_request_remote')
+-- 11. Note: The following tables ('rental_remote' and 'maintenance_request_remote')
 -- are being created as foreign tables and are assumed to have a foreign key
 -- relationship to the 'student' table in the remote database.
 
--- 16. Create a foreign table for the 'Rental' table in the remote database.
+-- 12. Create a foreign table for the 'Rental' table in the remote database.
 --     This allows you to access rental information from the remote server.
 CREATE FOREIGN TABLE rental_remote (
     StudentID INT NOT NULL,
@@ -261,7 +261,7 @@ FROM rental_remote;
 SELECT * FROM Rental;
 
 
--- 17. Create a foreign table for the 'Maintenance_Request' table in the remote database.
+-- 13. Create a foreign table for the 'Maintenance_Request' table in the remote database.
 --     This allows you to access maintenance request information from the remote server.
 CREATE FOREIGN TABLE maintenance_request_remote (
     RequestID INT NOT NULL,
@@ -301,7 +301,7 @@ FROM maintenance_request_remote;
 SELECT * FROM Maintenance_Request;
 
 
--- 18. Delete all foreign tables created to access the remote database, after performing the
+-- 14. Delete all foreign tables created to access the remote database, after performing the
 -- integration, decisions, and information integration.
 DROP FOREIGN TABLE apartment_remote;
 DROP FOREIGN TABLE building_remote;
