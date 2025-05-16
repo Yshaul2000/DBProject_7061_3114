@@ -15,18 +15,24 @@ This project is a university financial department database management system. It
 ---
 
 ## 📌 Table of Contents
-1. [Overview](#overview)
-2. [ERD and DSD Diagrams](#erd-and-dsd-diagrams)
-3. [Data Structure Description](#data-structure-description)
-4. [Data Insertion Methods](#data-insertion-methods)
-5. [Backup & Restore](#backup--restore)
-6. [Stage 2 – Advanced SQL Queries & Constraints](#-stage-2--advanced-sql-queries--constraints)
-   - [SELECT Queries](#select-queries)
-   - [DELETE Queries](#delete-queries)
-   - [UPDATE Queries](#update-queries)
-   - [Rollback & Commit Transactions](#rollback--commit-transactions)
-   - [Constraints Using ALTER TABLE](#constraints-using-alter-table)
-7. [Conclusion](#conclusion)
+1. [Overview](#overview)  
+2. [ERD and DSD Diagrams](#erd-and-dsd-diagrams)  
+3. [Data Structure Description](#data-structure-description)  
+4. [Data Insertion Methods](#data-insertion-methods)  
+5. [Backup & Restore](#backup--restore)  
+6. [Stage 2 – Advanced SQL Queries & Constraints](#-stage-2--advanced-sql-queries--constraints)  
+   - [SELECT Queries](#select-queries)  
+   - [DELETE Queries](#delete-queries)  
+   - [UPDATE Queries](#update-queries)  
+   - [Rollback & Commit Transactions](#rollback--commit-transactions)  
+   - [Constraints Using ALTER TABLE](#constraints-using-alter-table)  
+7. [Stage 3 – Data Integration Phase](#-stage-3--data-integration-phase)  
+   - [ERD and DSD Diagrams (Stage 3)](#erd-and-dsd-diagrams-1)  
+   - [Integration Decisions](#integration-decisions)  
+   - [Step-by-Step Integration & Full SQL](#step-by-step-integration--full-sql)  
+   - [Outcome](#outcome-1)  
+8. [Conclusion](#conclusion)
+
 
 ---
 
