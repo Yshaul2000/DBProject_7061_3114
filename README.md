@@ -389,8 +389,7 @@ ALTER COLUMN FirstName SET NOT NULL;
 
 # 🔗 Stage 3 – Data Integration Phase
 
-This section documents the integration process between the **local financial system** and the **remote dormitory management database**, including schema updates, foreign table handling, and data merging operations.
-
+📜 This stage focuses on integrating the Financial Department database with the Dormitory Management database, a key aspect of the university management system. The goal is to create a unified database that allows for a comprehensive view of student-related information, including financial and residential data.
 ---
 
 ## 🗂️ ERD and DSD Diagrams
