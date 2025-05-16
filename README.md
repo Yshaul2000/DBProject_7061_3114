@@ -394,12 +394,23 @@ ALTER COLUMN FirstName SET NOT NULL;
 
 ## 🗂️ ERD and DSD Diagrams
 
-### ERD (Updated – Integrated)
-![ERD](images/Stage3/ERD_updated.jpg)
+### ERD (Finansi)
+![ERD](images/Stage3/ERD.jpg)
 
-### DSD (Updated – Integrated)
-![DSD](images/Stage3/DSD_updated.jpg)
+### DSD (Finansi)
+![DSD](images/Stage3/DSD.jpg)
 
+### ERD (Dormitory)
+![ERD](images/Stage3/Dormitory_erd.jpg)
+
+### DSD (Dormitory)
+![DSD](images/Stage3/Dormitory_dsd.jpg)
+
+### ERD (Integration)
+![ERD](images/Stage3/merge_erd.jpg)
+
+### DSD (Integration)
+![DSD](images/Stage3/merge_dsd.jpg)
 ---
 
 ## 🧠 Integration Decisions
