@@ -515,59 +515,6 @@ FROM student_remote;
 
 ### 7. Integrate Dormitory Management Tables
 
-For each of the following tables, the process includes:
-
-1. Creating a foreign table.
-2. Creating a local table.
-3. Copying data via `INSERT INTO ... SELECT ...`.
-
-These tables include:
-
-- Dorm_Management
-- Building
-- Apartment
-- Room
-- Lease
-- Rental
-- Maintenance_Request
-
-Each of these was fully migrated using foreign table access followed by local storage and relational constraints.
-
----
-
-### 8. Clean-Up
-
-After data was successfully copied, all foreign tables were dropped to finalize the integration.
-
-```sql
-DROP FOREIGN TABLE apartment_remote;
-DROP FOREIGN TABLE building_remote;
-DROP FOREIGN TABLE dorm_management_remote;
-DROP FOREIGN TABLE lease_remote;
-DROP FOREIGN TABLE maintenance_request_remote;
-DROP FOREIGN TABLE rental_remote;
-DROP FOREIGN TABLE room_remote;
-DROP FOREIGN TABLE student_remote;
-```
-
----
-
-## ✅ Conclusion
-
-In this integration stage, we:
-
-- Connected two separate databases using PostgreSQL foreign data wrappers.
-- Merged student and dormitory information into the financial system.
-- Ensured data consistency and normalized design through referential integrity.
-- Demonstrated advanced SQL skills with DDL, DML, and data synchronization logic.
-
-This provides a comprehensive, scalable university database system.
-
----
-
-
-# 🧩 Full Integration SQL Script – Stage 3
-
 This section contains the complete SQL integration script used in Stage 3 of the project, with all commands and comments fully preserved and documented.
 
 ---
@@ -893,6 +840,40 @@ DROP FOREIGN TABLE student_remote;
 ```
 
 ---
+
+
+---
+
+### 8. Clean-Up
+
+After data was successfully copied, all foreign tables were dropped to finalize the integration.
+
+```sql
+DROP FOREIGN TABLE apartment_remote;
+DROP FOREIGN TABLE building_remote;
+DROP FOREIGN TABLE dorm_management_remote;
+DROP FOREIGN TABLE lease_remote;
+DROP FOREIGN TABLE maintenance_request_remote;
+DROP FOREIGN TABLE rental_remote;
+DROP FOREIGN TABLE room_remote;
+DROP FOREIGN TABLE student_remote;
+```
+
+---
+
+## ✅ Conclusion
+
+In this integration stage, we:
+
+- Connected two separate databases using PostgreSQL foreign data wrappers.
+- Merged student and dormitory information into the financial system.
+- Ensured data consistency and normalized design through referential integrity.
+- Demonstrated advanced SQL skills with DDL, DML, and data synchronization logic.
+
+This provides a comprehensive, scalable university database system.
+
+---
+
 
 
 ## ✅ Conclusion
