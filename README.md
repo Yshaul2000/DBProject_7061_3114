@@ -60,52 +60,62 @@ The system uses foreign keys, weak entities, and entity relationships to maintai
 
 ### Department  
 Represents a university department.
-- `department_id`
+- `department_id` (Primary key)
 - `name`
 - `description`
 
 ### Employees  
-- `employee_id`  
+- `employee_id`  (Primary key)
 - `name`  
 - `salary`  
 - `hire_date`  
 - `department_id` (Foreign Key)
 
 ### Budget  
-- `budget_id`  
+- `budget_id`     (Primary key)
 - `total_amount`  
 - `budget_year`
 
 ### uses_budget  
 Links budgets to departments.  
-- `department_id` (FK)  
-- `budget_id` (FK)
+- `department_id` (Foreign Key)  
+- `budget_id` (Foreign Key)
 
 ### Student  
-- `StudentID`  
-- `FirstName`, `LastName`, `Email`
+- `StudentID`   (Primary key)
+- `FirstName`
+- `LastName`,
+- `Email`
 
 ### Payment *(Weak Entity)*  
-- `payment_id`  
-- `StudentID` (FK)  
-- `amount`, `payment_date`, `type_payment`, `topic`
+- `payment_id`  (Primary key) 
+- `StudentID` (Foreign Key)  
+- `amount`
+- `payment_date`
+- `type_payment`
+- `topic`
 
 ### Scholarship  
-- `scholarship_id`  
-- `Name`, `Amount`, `AnnualHours`
+- `scholarship_id`   (Primary key)
+- `Name`
+- `Amount`
+- `AnnualHours`
 
 ### takes_scholarship  
-- `scholarship_id` (FK)  
-- `StudentID` (FK)  
+- `scholarship_id` (Foreign Key)  
+- `StudentID` (Foreign Key)  
 - `approval_date`
 
 ### Financial_Aid  
-- `aid_id`  
-- `aid_type`, `aid_amount`, `approval_date`, `repayment_due`
+- `aid_id`    (Primary key)
+- `aid_type`
+- `aid_amount`
+- `approval_date`
+- `repayment_due`
 
 ### receives_aid  
-- `StudentID` (FK)  
-- `aid_id` (FK)  
+- `StudentID` (Foreign Key)  
+- `aid_id` (Foreign Key)  
 - `application_date`
 
 📄 SQL table creation scripts are included in the `Stage1` folder.
