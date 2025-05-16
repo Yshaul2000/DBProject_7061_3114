@@ -26,7 +26,7 @@ This project is a university financial department database management system. It
    - [UPDATE Queries](#update-queries)  
    - [Rollback & Commit Transactions](#rollback--commit-transactions)  
    - [Constraints Using ALTER TABLE](#constraints-using-alter-table)  
-7. [Stage 3 – Data Integration Phase](#-stage-3--data-integration-phase)  
+7. [Stage 3 – Integration and Views](#-stage-3--data-integration-phase)  
    - [ERD and DSD Diagrams (Stage 3)](#erd-and-dsd-diagrams-1)  
    - [Integration Decisions](#integration-decisions)  
    - [Step-by-Step Integration & Full SQL](#step-by-step-integration--full-sql)  
@@ -60,6 +60,9 @@ The system uses foreign keys, weak entities, and entity relationships to maintai
 
 ### Department  
 Represents a university department.
+- `department_id`
+- `name`
+- `description`
 
 ### Employees  
 - `employee_id`  
@@ -395,8 +398,8 @@ ALTER COLUMN FirstName SET NOT NULL;
 
 # 🔗 Stage 3 – Integration and Views
 
-📜This stage focuses on integrating the Financial Department database with the Dormitory Management database, a key aspect of the university management system. The goal is to create a unified database that allows for a comprehensive view of student-related information, including financial and residential data.
-In addition, this stage also includes the creation of SQL views from the perspective of our department, as well as from the perspective of the integrated department, in order to present relevant combined data tailored to the needs of each side.
+📜 This stage focuses on integrating the Financial Department database with the Dormitory Management database — a crucial component of the overall university management system. The objective is to build a unified structure that enables a comprehensive view of student-related information, combining both financial and residential data.
+As part of this integration, SQL views were created from both the perspective of our department and the collaborating department. These views provide streamlined, role-specific access to the combined data, making it easier for each side to retrieve and analyze the information most relevant to their operational needs
 ---
 
 ## 🗂️ ERD and DSD Diagrams
