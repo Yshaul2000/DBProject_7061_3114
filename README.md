@@ -404,13 +404,13 @@ ALTER COLUMN FirstName SET NOT NULL;
 ![ERD](images/Stage3/Dormitory_erd.jpg)
 
 ### DSD (Dormitory)
-![DSD](images/Stage3/Dormitory_dsd.jpg)
+![DSD](images/Stage3/Dormitory_dsd.png)
 
 ### ERD (Integration)
-![ERD](images/Stage3/merge_erd.jpg)
+![ERD](images/Stage3/merge_erd.png)
 
 ### DSD (Integration)
-![DSD](images/Stage3/merge_dsd.jpg)
+![DSD](images/Stage3/merge_dsd.png)
 ---
 
 ## 🧠 Integration Decisions
