@@ -877,6 +877,145 @@ DROP FOREIGN TABLE student_remote;
 
 ---
 
+## 👁️ Views and Analytical Queries
+
+This section presents the **SQL views** created as part of Stage 3, providing analytical insights for both the **Financial Department** and the **Dormitory Management**.  
+Each view is accompanied by a description, view definition, and analytical queries with corresponding results.
+
+---
+
+### 📘 View 1 – Financial Department: Average Total Payment Per Student
+
+💡 **Description**:  
+This view combines student and payment data to calculate the average total payment made by each student, regardless of payment type. The average is rounded to 3 decimal places for improved readability.  
+It helps the financial department estimate the average revenue per student.
+
+```sql
+CREATE VIEW Average_Total_Payment_Per_Student AS
+SELECT
+    s.StudentID,
+    s.FirstName || ' ' || s.LastName AS StudentName,
+    ROUND(AVG(p.amount), 3) AS AverageTotalPayment
+FROM
+    Student s
+JOIN
+    Payment p ON s.StudentID = p.StudentID
+GROUP BY
+    s.StudentID, s.FirstName, s.LastName
+ORDER BY
+    StudentName;
+```
+
+---
+
+#### 🔍 Query 1 – Top 3 students by average total payment
+
+💡 **Purpose**: Identify the highest-paying students on average.
+
+```sql
+SELECT
+    StudentName,
+    AverageTotalPayment
+FROM
+    Average_Total_Payment_Per_Student
+ORDER BY
+    AverageTotalPayment DESC
+LIMIT 3;
+```
+
+📷 _Screenshot: Top 3 students with highest average payments_  
+`![View1 - Top 3](images/Stage3/view1_top3.png)`
+
+---
+
+#### 🔍 Query 2 – Overall average of student payments
+
+💡 **Purpose**: Calculate the overall average payment value across all students.
+
+```sql
+SELECT
+    ROUND(AVG(AverageTotalPayment), 3) AS OverallAveragePaymentPerStudent
+FROM
+    Average_Total_Payment_Per_Student;
+```
+
+📷 _Screenshot: Overall average payment across students_  
+`![View1 - Overall Avg](images/Stage3/view1_overall_avg.png)`
+
+---
+
+### 📘 View 2 – Dormitory Department: Building Capacity vs. Registered Students
+
+💡 **Description**:  
+This view joins building and apartment data to calculate the total room capacity per building, and compares it with the total number of registered students (from the remote database).  
+It provides insight into whether current dormitory capacity meets student demand.
+
+```sql
+CREATE VIEW Building_Capacity_Vs_Registered_Students AS
+SELECT
+    b.BuildingID,
+    b.BuildingName,
+    b.MaxApartments,
+    SUM(a.RoomCapacity) AS TotalRoomCapacity,
+    (SELECT COUNT(*) FROM student_remote) AS TotalRegisteredStudents
+FROM
+    Building b
+JOIN
+    Apartment a ON b.BuildingID = a.BuildingID
+GROUP BY
+    b.BuildingID, b.BuildingName, b.MaxApartments
+ORDER BY
+    b.BuildingName;
+```
+
+---
+
+#### 🔍 Query 1 – Average potential occupancy per building
+
+💡 **Purpose**: Estimate potential occupancy rate if all registered students need housing.
+
+```sql
+SELECT
+    BuildingName,
+    ROUND(CAST((SELECT COUNT(*) FROM student_remote) AS DECIMAL) / SUM(TotalRoomCapacity) * 100, 3) AS AveragePotentialOccupancy
+FROM
+    Building_Capacity_Vs_Registered_Students
+GROUP BY
+    BuildingName
+ORDER BY
+    AveragePotentialOccupancy DESC;
+```
+
+📷 _Screenshot: Average potential occupancy per building_  
+`![View2 - Occupancy](images/Stage3/view2_occupancy.png)`
+
+---
+
+#### 🔍 Query 2 – Student-to-capacity difference per building
+
+💡 **Purpose**: Identify buildings where student demand exceeds available room capacity.
+
+```sql
+SELECT
+    BuildingName,
+    (SELECT COUNT(*) FROM student_remote) - SUM(TotalRoomCapacity) AS StudentCapacityDifference
+FROM
+    Building_Capacity_Vs_Registered_Students
+GROUP BY
+    BuildingName
+ORDER BY
+    StudentCapacityDifference DESC;
+```
+
+📷 _Screenshot: Capacity difference per building_  
+`![View2 - Capacity Gap](images/Stage3/view2_gap.png)`
+
+---
+
+
+
+
+
 ## ✅ Conclusion
 
 In this integration stage, we:
