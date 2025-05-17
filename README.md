@@ -906,6 +906,9 @@ ORDER BY
     StudentName;
 ```
 
+📷 _Screenshot: The result of the View to verify normality_
+`![View1](images/Stage3/Financial_View.jpg)`
+
 ---
 
 #### 🔍 Query 1 – Top 3 students by average total payment
@@ -924,7 +927,7 @@ LIMIT 3;
 ```
 
 📷 _Screenshot: Top 3 students with highest average payments_  
-`![View1 - Top 3](images/Stage3/view1_top3.png)`
+`![View1 - Top 3](images/Stage3/Financial_Q1.jpg)`
 
 ---
 
@@ -940,7 +943,7 @@ FROM
 ```
 
 📷 _Screenshot: Overall average payment across students_  
-`![View1 - Overall Avg](images/Stage3/view1_overall_avg.png)`
+`![View1 - Overall Avg](images/Stage3/Financial_Q2.jpg)`
 
 ---
 
@@ -968,6 +971,9 @@ ORDER BY
     b.BuildingName;
 ```
 
+📷 _Screenshot: The result of the View to verify normality_
+`![View2](images/Stage3/Dormitory_View.jpg)`
+
 ---
 
 #### 🔍 Query 1 – Average potential occupancy per building
@@ -987,7 +993,7 @@ ORDER BY
 ```
 
 📷 _Screenshot: Average potential occupancy per building_  
-`![View2 - Occupancy](images/Stage3/view2_occupancy.png)`
+`![View2 - Occupancy](images/Stage3/Dormitory_Q1.jpg)`
 
 ---
 
@@ -1008,7 +1014,7 @@ ORDER BY
 ```
 
 📷 _Screenshot: Capacity difference per building_  
-`![View2 - Capacity Gap](images/Stage3/view2_gap.png)`
+`![View2 - Capacity Gap](images/Stage3/Dormitory_Q2.jpg)`
 
 ---
 
