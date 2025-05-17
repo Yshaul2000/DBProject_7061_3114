@@ -29,7 +29,8 @@ This project is a university financial department database management system. It
 7. [Stage 3 – Integration and Views](#-stage-3--data-integration-phase)  
    - [ERD and DSD Diagrams (Stage 3)](#erd-and-dsd-diagrams-1)  
    - [Integration Decisions](#integration-decisions)  
-   - [Step-by-Step Integration & Full SQL](#step-by-step-integration--full-sql)  
+   - [Step-by-Step Integration & Full SQL](#step-by-step-integration--full-sql)
+   - [Views after integration](#Views-after-integration)  
    - [Outcome](#outcome-1)  
 8. [Conclusion](#conclusion)
 
