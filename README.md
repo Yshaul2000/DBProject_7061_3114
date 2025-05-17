@@ -907,6 +907,7 @@ ORDER BY
 ```
 
 📷 _Screenshot: The result of the View to verify normality_
+
 ![View1](images/Stage3/Financial_View.jpg)
 
 ---
