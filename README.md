@@ -1039,6 +1039,384 @@ This provides a comprehensive, scalable university database system.
 
 
 
+# 📘 Stage 4 – Advanced PL/pgSQL Programs
+
+This section includes documentation and screenshots for advanced PL/pgSQL programs including functions, procedures, triggers, and main demonstration programs as required in Stage 4.
+
+---
+
+## 🔧 Functions
+
+> A total of 2 functions were implemented. Each function is described with its purpose, code, and execution proof.
+
+### 🎯 Function 1: Calculate Long-term Department Salary
+
+📘 **Background**: The HR department needed to assess the total salary cost of experienced employees (2+ years tenure) in specific departments for budget planning and retention analysis.  
+✅ **Benefit**: Enables accurate budget forecasting for long-term employees and helps identify departments with high retention costs, supporting strategic workforce planning decisions.
+
+```sql
+CREATE OR REPLACE FUNCTION get_long_term_department_salary(p_dept_id INT)
+RETURNS NUMERIC AS $$
+DECLARE
+    -- Cursor to iterate through employees in the specified department
+    emp_cursor REFCURSOR;
+    -- Variable to store individual employee salary from cursor
+    emp_salary NUMERIC;
+    -- Variable to store individual employee hire date from cursor
+    emp_hire_date DATE;
+    -- Accumulator variable to store total salary sum (initialized to 0)
+    total_salary NUMERIC := 0;
+BEGIN
+    -- Open cursor with query to get salary and hire_date for all employees in department
+    OPEN emp_cursor FOR 
+        SELECT salary, hire_date FROM Employees WHERE department_id = p_dept_id;
+    
+    -- Loop through all employees in the department
+    LOOP
+        -- Fetch next employee record into variables
+        FETCH emp_cursor INTO emp_salary, emp_hire_date;
+        -- Exit loop when no more records to process
+        EXIT WHEN NOT FOUND;
+        
+        -- Check if employee has been working for more than 2 years
+        -- AGE() calculates the time difference between current date and hire date
+        IF AGE(NOW(), emp_hire_date) > INTERVAL '2 years' THEN
+            -- Add this employee's salary to the total (only for long-term employees)
+            total_salary := total_salary + emp_salary;
+        END IF;
+    END LOOP;
+    
+    -- Close the cursor to free resources
+    CLOSE emp_cursor;
+    
+    -- Return the accumulated total salary of long-term employees
+    RETURN total_salary;
+    
+-- Exception handling: Return 0 if any error occurs during execution
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Return 0 as default value in case of any database errors
+        RETURN 0;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### 🎯 Function 2: Get_student_aid_summary
+
+📘 **Background**: The financial aid office frequently received inquiries from students about their total aid amount and number of aid packages. Manual calculation was time-consuming and error-prone.  
+✅ **Benefit**: Provides instant, accurate summary of student financial aid status, improving student services and reducing administrative workload while ensuring data consistency.
+
+```sql
+CREATE OR REPLACE FUNCTION count_and_sum_student_aid(p_student_id INT)
+RETURNS TEXT AS $$
+DECLARE
+    -- This function calculates the number of aids and the total aid amount for a given student
+    total_amount NUMERIC := 0;  -- Variable to accumulate total aid amount
+    aid_count INT := 0;         -- Variable to count the number of aids
+    r RECORD;                   -- Record to hold each row of the query result
+BEGIN
+    FOR r IN 
+        SELECT f.aid_amount 
+        FROM Financial_Aid f
+        JOIN receives_aid ra ON f.aid_id = ra.aid_id
+        WHERE ra.StudentID = p_student_id  -- Filter aids by student ID
+    LOOP
+        total_amount := total_amount + r.aid_amount;  -- Accumulate total amount
+        aid_count := aid_count + 1;                   -- Increment aid count
+    END LOOP;
+
+    RETURN 'Student ' || p_student_id || ' has ' ||  aid_count ||  ' aids totaling ' || total_amount;
+    -- Return a summary string containing student ID, aid count, and total amount
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN 'Error occurred';  -- Handle any unexpected error gracefully
+END;
+$$ LANGUAGE plpgsql;
+```
+
+
+---
+
+<br>
+
+## ⚙️ Procedures
+
+> A total of 2 procedures were implemented. Each procedure is described with its purpose, code, and execution proof.
+
+### 🔄 Procedure 1: Update Employee Salaries by Seniority
+
+📘 **Background**: The university implemented a new compensation policy where employee salaries should be adjusted based on tenure - employees with 5+ years get 20% increase, and those with 2-5 years get 10% increase.  
+✅ **Benefit**: Automates fair salary adjustments based on seniority, ensuring consistent application of compensation policies across departments while rewarding employee loyalty and experience.
+
+```sql
+CREATE OR REPLACE PROCEDURE update_seniority_salary(p_dept_id INT)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    r RECORD; -- Declare a record variable to iterate through employee data
+BEGIN
+    -- Loop through each employee in the specified department
+    FOR r IN SELECT employee_id, hire_date FROM Employees WHERE department_id = p_dept_id
+    LOOP
+        -- Check if the employee's tenure is greater than 5 years
+        IF AGE(NOW(), r.hire_date) > INTERVAL '5 years' THEN
+            -- Update salary: increase by 20% for employees with more than 5 years seniority
+            UPDATE Employees
+            SET salary = salary * 1.20
+            WHERE employee_id = r.employee_id;
+        -- Check if the employee's tenure is greater than 2 years (but not more than 5 years)
+        ELSIF AGE(NOW(), r.hire_date) > INTERVAL '2 years' THEN
+            -- Update salary: increase by 10% for employees with more than 2 years seniority
+            UPDATE Employees
+            SET salary = salary * 1.10
+            WHERE employee_id = r.employee_id;
+        END IF;
+    END LOOP;
+
+    -- Raise a notice message indicating successful completion for the department
+    RAISE NOTICE 'Salary updates done for department %', p_dept_id;
+
+EXCEPTION
+    -- Catch any exceptions that occur during the procedure execution
+    WHEN OTHERS THEN
+        -- Raise a warning if an error occurs, providing a general error message
+        RAISE WARNING 'Error in procedure update_seniority_salary';
+END;
+$$;
+```
+
+
+
+### 🔄 Procedure 2: Get Student Payments
+
+📘 **Background**: Student services staff needed a quick way to retrieve all payment records for a specific student when handling inquiries or disputes, but manual SQL queries were cumbersome for non-technical staff.  
+✅ **Benefit**: Provides a standardized, secure way to access student payment history through a cursor, enabling efficient customer service while maintaining data access control and consistency.
+
+```sql
+CREATE OR REPLACE PROCEDURE get_student_payments(
+    p_student_id INT,
+    OUT ref_payments REFCURSOR  -- Output parameter: a reference cursor to return the payment records
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Open a cursor for selecting payment details for the given student ID
+    OPEN ref_payments FOR
+    SELECT payment_id, amount, payment_date
+    FROM Payment
+    WHERE StudentID = p_student_id;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle any unexpected error by raising a warning
+        RAISE WARNING 'Error opening payments cursor';
+END;
+$$;
+```
+
+
+
+---
+
+<br>
+
+## ⚡ Triggers
+
+> A total of 2 triggers were implemented. Each trigger is described with its purpose, code, and execution proof.
+
+### 🔔 Trigger 1: Update Department Description on Salary Change
+
+📘 **Background**: The administration needed to track which departments had recent salary modifications for audit purposes and budget monitoring, but manual tracking was inefficient and prone to oversight.  
+✅ **Benefit**: Automatically maintains an audit trail of salary changes by updating department descriptions, ensuring transparency and helping administrators quickly identify departments with recent compensation adjustments.
+
+```sql
+CREATE OR REPLACE FUNCTION trg_update_department_description()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Update the Department table's description field
+    -- Set a standard message indicating the department was affected by a salary change
+    UPDATE Department
+    SET description = 'Updated due to salary change'
+    WHERE department_id = NEW.department_id; -- Use the department_id from the modified employee record
+    
+    -- Return NEW to allow the original UPDATE operation to proceed normally
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger creation: Sets up the actual trigger that will call the function above
+CREATE TRIGGER update_department_description_trigger
+AFTER UPDATE OF salary ON Employees -- Fires after salary column is updated in Employees table
+FOR EACH ROW -- Execute once for each row that gets updated
+WHEN (OLD.salary <> NEW.salary) -- Only trigger when salary value actually changes (not just any update)
+EXECUTE FUNCTION trg_update_department_description(); -- Call the function defined above
+```
+
+
+
+### 🔔 Trigger 2: Auto-Assign Financial Aid on Scholarship
+
+📘 **Background**: Students who received scholarships often forgot to apply for additional financial aid they were eligible for, resulting in missed opportunities and continued financial hardship despite scholarship awards.  
+✅ **Benefit**: Automatically enrolls scholarship recipients in available financial aid programs, ensuring students receive maximum support and reducing administrative burden on financial aid staff while improving student outcomes.
+
+```sql
+CREATE OR REPLACE FUNCTION trg_scholarship_to_aid()
+RETURNS TRIGGER AS $$
+DECLARE
+    -- Variable to store the selected aid ID
+    v_aid_id INT;
+BEGIN
+    -- Get an aid_id from Financial_Aid table (always add new aid)
+    SELECT aid_id
+    INTO v_aid_id
+    FROM Financial_Aid
+    LIMIT 1; -- Take the first available aid
+    
+    -- Always insert a new record into receives_aid table
+    INSERT INTO receives_aid (StudentID, aid_id, application_date)
+    VALUES (NEW.StudentID, v_aid_id, NEW.approval_date);
+    
+    -- Return NEW to allow the original operation to proceed normally
+    RETURN NEW;
+    
+-- Exception handling: Catch any errors that might occur during execution
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Log error message without stopping the main operation
+        RAISE NOTICE 'Trigger error: %', SQLERRM; -- SQLERRM contains the error message
+        -- Return NEW to allow the original operation to continue despite the error
+        RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Drop existing trigger if it exists
+DROP TRIGGER IF EXISTS auto_aid_on_scholarship ON takes_scholarship;
+
+-- Create the trigger on takes_scholarship table
+CREATE TRIGGER auto_aid_on_scholarship
+AFTER INSERT ON takes_scholarship
+FOR EACH ROW
+EXECUTE FUNCTION trg_scholarship_to_aid();
+```
+
+
+---
+
+<br>
+
+## 🚀 Main Programs
+
+> A total of 2 main demonstration programs were implemented. Each program showcases the integration of multiple PL/pgSQL components.
+
+### 💼 Main Program 1: Seniority Salary Update Demonstration
+
+📘 **Background**: The HR department needed to test the complete salary update process for long-term employees, including before/after comparisons to verify the procedure worked correctly and to demonstrate the system's effectiveness to management.  
+✅ **Benefit**: Provides a comprehensive test of the salary update system, validates the procedure functionality, and generates clear evidence of successful implementation for management reporting and system verification.
+
+```sql
+-------------------------------------------------------------------------------------------------------------
+-- Main Program: Seniority Salary Update Demonstration
+-- This program tests the seniority salary update functionality by comparing
+-- long-term employee salaries before and after applying the update procedure.
+---------------------------------------------------------------------------------------------------------------
+DO $$
+DECLARE
+    total_before NUMERIC;
+    total_after NUMERIC;
+BEGIN
+    -- Before update
+    total_before := get_long_term_department_salary(338);
+    RAISE NOTICE 'Total long-term salaries BEFORE update: %', total_before;
+
+    -- Call the procedure that updates the salary
+    CALL update_seniority_salary(338);
+
+    -- After update
+    total_after := get_long_term_department_salary(338);
+    RAISE NOTICE 'Total long-term salaries AFTER update: %', total_after;
+END;
+$$;
+```
+
+![Main Program 1 Execution](images/Stage4/Main1_department_before.jpg)
+
+![Main Program 1 Execution](images/Stage4/Main1_department_after.jpg)
+
+![Main Program 1 Execution](images/Stage4/Main1_resulte.jpg)
+
+### 🎓 Main Program 2: Student Financial Aid and Payments Demo
+
+📘 **Background**: The financial aid office needed a comprehensive demonstration showing how the scholarship trigger system works in conjunction with aid tracking and payment history retrieval for student service representatives.  
+✅ **Benefit**: Demonstrates the complete student financial workflow including aid calculation, payment history retrieval, and automatic aid assignment via triggers, providing training material and system validation for financial aid staff.
+
+```sql
+-----------------------------------------------------------------------------------------------------
+-- This anonymous block demonstrates various operations related to student financial aid and payments,
+-- including checking aid status, listing payments, and triggering aid updates via scholarship insertion.
+-----------------------------------------------------------------------------------------------------
+DO $$
+DECLARE
+    aid_info_before TEXT;
+    aid_info_after TEXT;
+    ref_cursor REFCURSOR;
+    payment_rec RECORD;
+    new_scholarship_id INT;
+BEGIN
+    -- 1) Function: How much financial aid before
+    aid_info_before := count_and_sum_student_aid(355);
+    RAISE NOTICE 'Aid Info BEFORE: %', aid_info_before;
+
+    -- 2) Procedure: Display all student payments
+    CALL get_student_payments(355, ref_cursor);
+
+    LOOP
+        FETCH ref_cursor INTO payment_rec;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE 'Payment ID: %, Amount: %, Date: %',
+            payment_rec.payment_id,
+            payment_rec.amount,
+            payment_rec.payment_date;
+    END LOOP;
+    CLOSE ref_cursor;
+
+    -- 3) Select scholarship_id that student id doesn't already have
+    SELECT scholarship_id INTO new_scholarship_id
+    FROM Scholarship
+    WHERE scholarship_id NOT IN (
+        SELECT scholarship_id
+        FROM takes_scholarship
+        WHERE StudentID = 355
+    )
+    LIMIT 1;
+
+    -- Insert only if a new scholarship was found
+    IF new_scholarship_id IS NOT NULL THEN
+        INSERT INTO takes_scholarship (scholarship_id, StudentID, approval_date)
+        VALUES (new_scholarship_id, 355, CURRENT_DATE);
+    ELSE
+        RAISE NOTICE 'No new scholarship available for student id.';
+    END IF;
+
+    -- 4) Function: How much financial aid after — to verify the trigger worked!
+    aid_info_after := count_and_sum_student_aid(355);
+    RAISE NOTICE 'Aid Info AFTER: %', aid_info_after;
+
+END;
+$$;
+```
+
+![Main Program 2 Execution](images/Stage4/Main2_student_after.jpg)
+
+![Main Program 2 Execution](images/Stage4/Main2_student_before.jpg)
+
+![Main Program 2 Execution](images/Stage4/Main2_resulte.jpg)
+
+---
+
+<br>
+
+
 ## ✅ Conclusion
 
 This project successfully demonstrates the design, implementation, and operation of a financial management database system for a university. Throughout the two project stages, we:
