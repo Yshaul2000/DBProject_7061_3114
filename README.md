@@ -1345,6 +1345,8 @@ $$;
 
 ![Main Program 1 Execution](images/Stage4/Main1_resulte.jpg)
 
+
+
 ### 🎓 Main Program 2: Student Financial Aid and Payments Demo
 
 📘 **Background**: The financial aid office needed a comprehensive demonstration showing how the scholarship trigger system works in conjunction with aid tracking and payment history retrieval for student service representatives.  
@@ -1406,9 +1408,9 @@ END;
 $$;
 ```
 
-![Main Program 2 Execution](images/Stage4/Main2_student_after.jpg)
-
 ![Main Program 2 Execution](images/Stage4/Main2_student_before.jpg)
+
+![Main Program 2 Execution](images/Stage4/Main2_student_after.jpg)
 
 ![Main Program 2 Execution](images/Stage4/Main2_resulte.jpg)
 
