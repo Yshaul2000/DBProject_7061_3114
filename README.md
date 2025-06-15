@@ -1146,7 +1146,7 @@ $$ LANGUAGE plpgsql;
 
 ---
 
-<br>
+<br><br>
 
 ## ⚙️ Procedures
 
@@ -1227,7 +1227,7 @@ $$;
 
 ---
 
-<br>
+<br><br>
 
 ## ⚡ Triggers
 
@@ -1311,7 +1311,7 @@ EXECUTE FUNCTION trg_scholarship_to_aid();
 
 ---
 
-<br>
+<br><br>
 
 ## 🚀 Main Programs
 
