@@ -1039,7 +1039,6 @@ In this integration stage, we:
 
 This provides a comprehensive, scalable university database system.
 
----
 
 <br><br>
 
