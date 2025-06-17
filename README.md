@@ -1375,7 +1375,7 @@ BEGIN
     aid_info_before := count_and_sum_student_aid(355);
     RAISE NOTICE 'Aid Info BEFORE: %', aid_info_before;
     
-    -- 2) Procedure: Display all student payments (much simpler now!)
+    -- 2) Procedure: Display all student payments
     CALL display_student_payments(355);
     
     -- 3) Select scholarship_id that student doesn't already have
