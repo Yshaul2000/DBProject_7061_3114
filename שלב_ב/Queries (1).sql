@@ -1,5 +1,5 @@
 -- =============================================
--- SELECT 1: סכום תשלומים לפי סטודנט ושנה
+-- SELECT 1: Total payments by student and year
 -- =============================================
 SELECT 
     s.StudentID,
@@ -17,7 +17,7 @@ ORDER BY
 
 
 -- ======================================================
--- SELECT 2: סיכום הכנסה חודשי מתשלומים
+-- SELECT 2: Monthly income summary from payments
 -- ======================================================
 SELECT 
     EXTRACT(YEAR FROM payment_date) AS PayYear,
@@ -34,7 +34,7 @@ ORDER BY
 
 
 -- =============================================
--- SELECT 3: תשלומים בחודש האחרון כולל סוג תשלום ונושא
+-- SELECT 3: Payments from the past month, including type and topic
 -- =============================================
 SELECT 
     s.StudentID,
@@ -51,7 +51,7 @@ WHERE
     p.payment_date >= CURRENT_DATE - INTERVAL '1 month';
 
 -- =============================================
--- SELECT 4: מחלקות עם תקציבים בסך כולל מעל 50000
+-- SELECT 4: Departments with total budgets over 50,000
 -- =============================================
 SELECT 
     d.name AS DepartmentName,
@@ -68,7 +68,7 @@ HAVING
     SUM(b.total_amount) > 50000;
 
 -- =============================================
--- SELECT 5: עובדים לפי שנת קבלה ופרטי מחלקה
+-- SELECT 5: Employees by hire year and department
 -- =============================================
 SELECT 
     e.name AS EmployeeName,
@@ -83,7 +83,7 @@ ORDER BY
     HireYear DESC;
 
 -- =============================================
--- SELECT 6: ממוצע סכום תשלומים לפי סוג תשלום
+-- SELECT 6: Average payment amount by type
 -- =============================================
 SELECT 
     type_payment,
@@ -97,7 +97,7 @@ ORDER BY
     AvgAmount DESC;
 
 -- =============================================
--- SELECT 7: רשימת סטודנטים עם קשיים אך ללא מלגה
+-- SELECT 7: Students with financial aid but no scholarship
 -- =============================================
 SELECT 
     s.StudentID,
@@ -116,7 +116,7 @@ GROUP BY
     s.StudentID, s.FirstName, s.LastName;
 
 -- =============================================
--- SELECT 8: המלגה הגבוהה ביותר בכל שנה
+-- SELECT 8: Highest scholarship in each year
 -- =============================================
 SELECT 
     sch.Name AS ScholarshipName,
@@ -135,7 +135,7 @@ WHERE
     );
 
 -- ====================================================================================
--- DELETE 1: מחיקת תשלומים ישנים (לפני 2 שנים) שסכומם נמוך מהממוצע עבור אותו סוג תשלום
+-- DELETE 1: Delete old payments (older than 2 years) with amounts below average by type
 -- ====================================================================================
 DELETE FROM Payment
 WHERE payment_date < CURRENT_DATE - INTERVAL '2 years'
@@ -145,31 +145,28 @@ WHERE payment_date < CURRENT_DATE - INTERVAL '2 years'
       WHERE p2.type_payment = Payment.type_payment
 	  );
 
--- ==============================================================================================
--- DELETE 2: מוחק את העובדים שמרוויחים שכר מאוד גבוהה ביחס לאוניברסיטה
--- ==============================================================================================
+-- ====================================================================================
+-- DELETE 2: Delete employees with very high salaries
+-- ====================================================================================
 DELETE FROM Employees
 WHERE salary between 70000 and 90000;
 
-
--- =======================================================================
--- DELETE 3: מחיקת מלגות עם דרישות שעות שנתיות נמוכות ורשומות מקושרות
--- =======================================================================
--- שינוי אילוץ מפתח זר בטבלת 
--- "takes_scholarship" 
--- ON DELETE CASCADE - ל
+-- ====================================================================================
+-- DELETE 3: Delete scholarships with low annual hours and related records
+-- ====================================================================================
+-- Modify foreign key constraint in "takes_scholarship" table to ON DELETE CASCADE
 ALTER TABLE takes_scholarship
 DROP CONSTRAINT takes_scholarship_scholarship_id_fkey,
 ADD CONSTRAINT takes_scholarship_scholarship_id_fkey
 FOREIGN KEY (scholarship_id) REFERENCES Scholarship(scholarship_id) ON DELETE CASCADE;
 
--- מחיקת מלגות עם דרישות שעות שנתיות נמוכות 
+-- Delete scholarships with annual hours requirement under 90
 DELETE FROM Scholarship
 WHERE AnnualHours < 90; 
 
 
 -- ===================================================================
--- UPDATE 1: הורדת שכר עובדים ב-20% למחלקה עם תקציב הנמוך מ-100000
+-- UPDATE 1: Reduce salaries by 80% for departments with budgets under 100,000
 -- ===================================================================
 UPDATE Employees
 SET salary = salary * 0.2
@@ -182,7 +179,7 @@ WHERE department_id IN (
 );
 
 -- ==============================================================================================================
--- UPDATE 2:  עדכון שיפור סכום מלגה לסטודנט בעשרה אחוזים בהתאם לממוצע תשלומים , אם הממוצע תשלומים שלו גבוה יותר מסכום המילגה
+-- UPDATE 2: Increase scholarship by 10% if student’s average payment exceeds current scholarship amount
 -- ==============================================================================================================
 UPDATE Scholarship
 SET Amount = CASE
@@ -195,9 +192,9 @@ SET Amount = CASE
 END;
 
 
--- ====================================================================================
--- UPDATE 3 - הוספת קידומת ישראל לפני השטורדל בכל כתובת אימייל
--- ===============================================================================
+-- ==================================================================================================
+-- UPDATE 3: Add "israel." prefix before the '@' in email addresses that don’t already include it
+-- ==================================================================================================
 UPDATE Student
 SET Email = SUBSTRING(Email, 1, POSITION('@' IN Email) - 1) || 'israel.' || SUBSTRING(Email, POSITION('@' IN Email), LENGTH(Email))
 WHERE Email NOT LIKE '%israel%';
