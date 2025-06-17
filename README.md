@@ -1420,7 +1420,7 @@ $$;
 
 ![Main Program 2 Execution](images/Stage4/Main2_student_after.jpg)
 
-![Main Program 2 Execution](images/Stage4/Main2_resulte.jpg)
+![Main Program 2 Execution](images/Stage4/Main2_resulte_U.jpg)
 
 ---
 
