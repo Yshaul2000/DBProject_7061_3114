@@ -1202,25 +1202,56 @@ $$;
 ✅ **Benefit**: Provides a standardized, secure way to access student payment history through a cursor, enabling efficient customer service while maintaining data access control and consistency.
 
 ```sql
-CREATE OR REPLACE PROCEDURE get_student_payments(
-    p_student_id INT,
-    OUT ref_payments REFCURSOR  -- Output parameter: a reference cursor to return the payment records
+CREATE OR REPLACE PROCEDURE display_student_payments(
+    p_student_id INT
 )
 LANGUAGE plpgsql
 AS $$
+DECLARE
+    payment_rec RECORD;
+    total_payments DECIMAL(10,2) := 0;
+    payment_count INT := 0;
 BEGIN
-    -- Open a cursor for selecting payment details for the given student ID
-    OPEN ref_payments FOR
-    SELECT payment_id, amount, payment_date
-    FROM Payment
-    WHERE StudentID = p_student_id;
-
+    -- Input validation
+    IF p_student_id IS NULL OR p_student_id <= 0 THEN
+        RAISE EXCEPTION 'Invalid student ID: %', p_student_id;
+    END IF;
+    
+    RAISE NOTICE '=== Student Payments Report for Student ID: % ===', p_student_id;
+    RAISE NOTICE 'Payment ID | Amount | Payment Date';
+    RAISE NOTICE '----------------------------------------';
+    
+    -- Loop through all payments for the given student ID
+    FOR payment_rec IN 
+        SELECT payment_id, amount, payment_date
+        FROM Payment
+        WHERE studentid = p_student_id
+        ORDER BY payment_date DESC
+    LOOP
+        RAISE NOTICE '% | % | %', 
+            payment_rec.payment_id,
+            payment_rec.amount,
+            payment_rec.payment_date;
+        
+        total_payments := total_payments + payment_rec.amount;
+        payment_count := payment_count + 1;
+    END LOOP;
+    
+    -- Summary
+    IF payment_count = 0 THEN
+        RAISE NOTICE 'No payments found for student ID: %', p_student_id;
+    ELSE
+        RAISE NOTICE '----------------------------------------';
+        RAISE NOTICE 'Total Payments: % | Total Amount: %', payment_count, total_payments;
+    END IF;
+    
 EXCEPTION
     WHEN OTHERS THEN
-        -- Handle any unexpected error by raising a warning
-        RAISE WARNING 'Error opening payments cursor';
+        RAISE NOTICE 'Error displaying payments for student ID %: %', p_student_id, SQLERRM;
+        RAISE;
 END;
 $$;
+
 ```
 
 
