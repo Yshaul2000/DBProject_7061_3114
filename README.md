@@ -1196,7 +1196,7 @@ $$;
 
 
 
-### 🔄 Procedure 2: Get Student Payments
+### 🔄 Procedure 2: Display Student Payments
 
 📘 **Background**: Student services staff needed a quick way to retrieve all payment records for a specific student when handling inquiries or disputes, but manual SQL queries were cumbersome for non-technical staff.  
 ✅ **Benefit**: Provides a standardized, secure way to access student payment history through a cursor, enabling efficient customer service while maintaining data access control and consistency.
