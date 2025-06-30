@@ -1570,6 +1570,83 @@ This module is designed to demonstrate the "Main Programs" from Stage 4, which t
 
 ![mains_p:](images/Stage5/Mains_p.jpg)
 
+<br>
+
+---
+## 📘 User Guide — University Management System
+
+Welcome! This guide explains in a simple and clear way how to use the university’s system for managing students, payments, and scholarships. It is intended to walk any end-user through exactly what to type, where to click, and what happens at each step.
+
+# 🔑 How to log into the system?
+
+1. Make sure you received a launch file named `login_screen.py` or a shortcut.
+2. Double-click the file – a login window will open.
+3. Enter the username and password you received from the system administrator.
+4. Click the "Sign In →" button.
+   If the login is successful, you will be automatically taken to the main menu.
+   If there is an error with the username or password, you will receive an error message. Check carefully and re-enter the details exactly.
+
+# 🏠 What do you see in the main menu?
+
+After logging in, you will see a main screen with several buttons. Each button activates a different part of the system. Choose what you want to do according to the type of task: Student Management, Payment Management, Reports, or Advanced Actions.
+
+# 👨‍🎓 Student Management — Student CRUD
+
+In this screen you can manage all student information in the system:
+
+* Add new student: Fill in the student ID (required field), first name, last name, and email. Click Insert to add.
+* Update student: Fill in the student ID, update any details needed, and click Update. The system will update only if the student exists.
+* Delete student: Fill in the student ID and click Delete. This action also deletes all payments and scholarships linked to the student.
+* Search student: Fill in the student ID and click Fetch. The information will automatically load into the fields.
+  Note: Do not delete a student without prior verification.
+
+# 💵 Payment Management — Payment CRUD
+
+In this screen you can manage payments:
+
+* Add new payment: Fill in the payment ID (required field) and all related details: student ID, amount, date, payment type, subject, and status. Click Insert.
+* Update payment: Fill in an existing payment ID, update the details, and click Update.
+* Delete payment: Fill in the payment ID and click Delete.
+* Search payment: Fill in the payment ID and click Fetch. All payment details will appear in the fields.
+  Important: Verify that the amount and date are correct before updating.
+
+# 🎓 Scholarship Management — Takes\_Scholarship CRUD
+
+Here you can assign scholarships to students and update information:
+
+* New assignment: Fill in scholarship ID, student ID, and approval date (format YYYY-MM-DD). Click Insert.
+* Update approval date: Fill in scholarship ID and student ID, change the date, and click Update.
+* Remove assignment: Fill in scholarship ID and student ID and click Delete.
+* Check assignment: Fill in scholarship ID and student ID and click Fetch.
+  Note: Both scholarship ID and student ID are required for each assignment.
+
+# 📊 Reports & Actions
+
+Here you can generate important reports:
+
+* Count & Sum Aid: Enter student ID and click the button. The system will show how many grants they received and the total amount.
+* Get Payments: Enter student ID and click Get Payments. A full breakdown of all payments for that student will appear.
+  The information is displayed in the box at the bottom of the screen.
+
+# 🧩 More Options
+
+In this screen you have advanced operations:
+
+* Run Queries: Execute advanced pre-selected queries.
+* Run Functions: Run unique functions like checking department salaries or student grants.
+* Run Procedures: Call system procedures (e.g., update salary).
+* Fetch All: View all data from every table.
+* Run Main Programs: Run complex programs that execute a series of operations (e.g., demonstration of scholarship update).
+* Return to main menu: You can always go back by clicking a button.
+
+# 🔚 Ending & Saving
+
+To stop working simply close all windows. Data is saved in the database in real-time.
+For any further questions, contact the system administrator.
+
+Good luck using the system!
+
+
 
 
 ## ✅ Conclusion
