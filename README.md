@@ -2,6 +2,8 @@
 
 ![Project_pic:](images/Stage5/MINIP_Project.png)
 
+---
+
 
 <br>
 <br>
