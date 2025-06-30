@@ -10,11 +10,11 @@ def open_takes_scholarship_screen():
     win.title("Takes_Scholarship CRUD")
     win.geometry("500x450")
 
-    # כותרת
+    # Title
     title_label = ctk.CTkLabel(win, text="Takes_Scholarship CRUD", font=("Arial", 24))
     title_label.pack(pady=20)
 
-    # שדות
+    # Fields
     schol_label = ctk.CTkLabel(win, text="Scholarship ID*")
     schol_label.pack()
     schol_entry = ctk.CTkEntry(win, placeholder_text="Scholarship ID")
@@ -45,7 +45,7 @@ def open_takes_scholarship_screen():
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            UPDATE takes_scholarship 
+            UPDATE takes_scholarship
             SET approval_date=%s
             WHERE scholarship_id=%s AND StudentID=%s
         """, (date_entry.get(), schol_entry.get(), student_entry.get()))
@@ -88,7 +88,7 @@ def open_takes_scholarship_screen():
             messagebox.showerror("Not Found", "No such record")
         conn.close()
 
-    # כפתורים ב-Frame מסודר
+    # Buttons arranged in a frame
     btn_frame = ctk.CTkFrame(win)
     btn_frame.pack(pady=20)
 

@@ -13,13 +13,13 @@ def open_reports_screen():
     title_label = ctk.CTkLabel(win, text="Reports & Actions", font=("Arial", 24))
     title_label.pack(pady=20)
 
-    # שדה Student ID
+    # Student ID field
     sid_label = ctk.CTkLabel(win, text="Student ID:")
     sid_label.pack()
     sid_entry = ctk.CTkEntry(win, placeholder_text="Enter Student ID")
     sid_entry.pack(pady=5)
 
-    # תיבת תוצאה
+    # Result box
     output_box = ctk.CTkTextbox(win, width=550, height=300)
     output_box.pack(pady=20)
 
@@ -58,7 +58,7 @@ def open_reports_screen():
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    # כפתורים
+    # Buttons
     btn_frame = ctk.CTkFrame(win)
     btn_frame.pack(pady=10)
 

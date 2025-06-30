@@ -10,11 +10,11 @@ def open_student_screen():
     win.title("Student CRUD")
     win.geometry("500x500")
 
-    # כותרת
+    # Title
     title_label = ctk.CTkLabel(win, text="Student CRUD", font=("Arial", 24))
     title_label.pack(pady=20)
 
-    # שדות
+    # Fields
     id_label = ctk.CTkLabel(win, text="ID*")
     id_label.pack()
     id_entry = ctk.CTkEntry(win, placeholder_text="Student ID")
@@ -35,7 +35,7 @@ def open_student_screen():
     email_entry = ctk.CTkEntry(win, placeholder_text="Email")
     email_entry.pack(pady=5)
 
-    # פעולות CRUD
+    # CRUD actions
     def insert():
         conn = get_connection()
         cur = conn.cursor()
@@ -45,7 +45,7 @@ def open_student_screen():
             messagebox.showerror("Error", "Student ID is required.")
             return
 
-        # בדיקה אם הסטודנט כבר קיים
+        # Check if the student already exists
         cur.execute("SELECT * FROM Student WHERE StudentID=%s", (student_id,))
         existing_student = cur.fetchone()
 
@@ -68,7 +68,7 @@ def open_student_screen():
             messagebox.showerror("Error", "Student ID is required.")
             return
 
-        # בדיקה אם הסטודנט קיים
+        # Check if the student exists
         cur.execute("SELECT * FROM Student WHERE StudentID=%s", (student_id,))
         existing_student = cur.fetchone()
 
@@ -91,20 +91,20 @@ def open_student_screen():
             messagebox.showerror("Error", "Student ID is required.")
             return
 
-        # בדיקה אם הסטודנט קיים
+        # Check if the student exists
         cur.execute("SELECT * FROM Student WHERE StudentID=%s", (student_id,))
         existing_student = cur.fetchone()
 
         if not existing_student:
             messagebox.showerror("Error", "Student does not exist in the database.")
         else:
-            # מחיקת רשומות תלויות קודם
+            # Delete dependent records first
             cur.execute("DELETE FROM payment WHERE studentid = %s", (student_id,))
             cur.execute("DELETE FROM takes_scholarship WHERE studentid = %s", (student_id,))
             cur.execute("DELETE FROM scholarship_log WHERE studentid = %s", (student_id,))
             cur.execute("DELETE FROM receives_aid WHERE studentid = %s", (student_id,))
 
-            # ואז מחיקת הסטודנט עצמו
+            # Then delete the student itself
             cur.execute("DELETE FROM student WHERE studentid = %s", (student_id,))
             conn.commit()
             messagebox.showinfo("OK", "Deleted Student and all related records.")
@@ -127,7 +127,7 @@ def open_student_screen():
             messagebox.showerror("Not found", "No such student")
         conn.close()
 
-    # כפתורים מסודרים יפה
+    # Buttons arranged nicely
     btn_frame = ctk.CTkFrame(win)
     btn_frame.pack(pady=20)
 
