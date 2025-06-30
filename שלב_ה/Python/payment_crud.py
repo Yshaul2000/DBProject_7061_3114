@@ -3,18 +3,20 @@ from tkinter import messagebox
 from db import get_connection
 
 def open_payment_screen():
+    # Set appearance and theme
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("blue")
 
+    # Create the payment window
     win = ctk.CTkToplevel()
     win.title("Payment CRUD")
-    win.geometry("600x600")
+    win.geometry("600x700")  # Increased height to fit all widgets comfortably
 
-    # כותרת
+    # Title label
     title_label = ctk.CTkLabel(win, text="Payment CRUD", font=("Arial", 24))
     title_label.pack(pady=20)
 
-    # שדות
+    # Input fields
     id_label = ctk.CTkLabel(win, text="Payment ID*")
     id_label.pack()
     id_entry = ctk.CTkEntry(win, placeholder_text="Payment ID")
@@ -50,6 +52,7 @@ def open_payment_screen():
     status_entry = ctk.CTkEntry(win, placeholder_text="Payment Status")
     status_entry.pack(pady=5)
 
+    # Function to insert new payment
     def insert():
         conn = get_connection()
         cur = conn.cursor()
@@ -59,13 +62,14 @@ def open_payment_screen():
             messagebox.showerror("Error", "Payment ID is required.")
             return
 
-        # בדיקה אם התשלום כבר קיים
+        # Check if payment already exists
         cur.execute("SELECT * FROM Payment WHERE payment_id=%s", (payment_id,))
         existing_payment = cur.fetchone()
 
         if existing_payment:
             messagebox.showerror("Error", "Payment already exists in the database.")
         else:
+            # Insert new payment
             cur.execute("""
                 INSERT INTO Payment (payment_id, StudentID, amount, payment_date, type_payment, topic, payment_status)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -76,6 +80,7 @@ def open_payment_screen():
 
         conn.close()
 
+    # Function to update existing payment
     def update():
         conn = get_connection()
         cur = conn.cursor()
@@ -85,13 +90,14 @@ def open_payment_screen():
             messagebox.showerror("Error", "Payment ID is required.")
             return
 
-        # בדיקה אם התשלום קיים
+        # Check if payment exists
         cur.execute("SELECT * FROM Payment WHERE payment_id=%s", (payment_id,))
         existing_payment = cur.fetchone()
 
         if not existing_payment:
             messagebox.showerror("Error", "Payment does not exist in the database.")
         else:
+            # Update payment data
             cur.execute("""
                 UPDATE Payment 
                 SET StudentID=%s, amount=%s, payment_date=%s, type_payment=%s, topic=%s, payment_status=%s 
@@ -103,6 +109,7 @@ def open_payment_screen():
 
         conn.close()
 
+    # Function to delete a payment
     def delete():
         conn = get_connection()
         cur = conn.cursor()
@@ -112,25 +119,28 @@ def open_payment_screen():
             messagebox.showerror("Error", "Payment ID is required.")
             return
 
-        # בדיקה אם התשלום קיים
+        # Check if payment exists
         cur.execute("SELECT * FROM Payment WHERE payment_id=%s", (payment_id,))
         existing_payment = cur.fetchone()
 
         if not existing_payment:
             messagebox.showerror("Error", "Payment does not exist in the database.")
         else:
+            # Delete payment
             cur.execute("DELETE FROM Payment WHERE payment_id=%s", (payment_id,))
             conn.commit()
             messagebox.showinfo("OK", "Deleted Payment")
 
         conn.close()
 
+    # Function to fetch and display a payment's details
     def fetch():
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("SELECT * FROM Payment WHERE payment_id=%s", (id_entry.get(),))
         row = cur.fetchone()
         if row:
+            # Clear all input fields
             student_entry.delete(0, ctk.END)
             amount_entry.delete(0, ctk.END)
             date_entry.delete(0, ctk.END)
@@ -138,6 +148,7 @@ def open_payment_screen():
             topic_entry.delete(0, ctk.END)
             status_entry.delete(0, ctk.END)
 
+            # Insert fetched data into the fields
             student_entry.insert(0, row[1])
             amount_entry.insert(0, row[2])
             date_entry.insert(0, row[3])
@@ -148,10 +159,11 @@ def open_payment_screen():
         else:
             messagebox.showerror("Not Found", "No such Payment")
 
-    # כפתורים
+    # Buttons frame
     btn_frame = ctk.CTkFrame(win)
     btn_frame.pack(pady=20)
 
+    # CRUD buttons
     insert_btn = ctk.CTkButton(btn_frame, text="Insert", command=insert, width=120)
     insert_btn.grid(row=0, column=0, padx=10, pady=5)
 
