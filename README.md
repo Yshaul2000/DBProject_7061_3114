@@ -1,5 +1,14 @@
 # DBProject - University Financial Department Database System
 
+![Project_pic:](images/Stage5/MINIP_Project.png)
+
+---
+
+
+<br>
+<br>
+<br>
+
 ## 📘 Project Report 
 
 This project is a university financial department database management system. It was developed as part of a database course project.
