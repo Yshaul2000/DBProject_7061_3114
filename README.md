@@ -1475,71 +1475,75 @@ This module is the cornerstone of the application's database connectivity 🔗. 
 
 The `login_screen` module presents the initial user authentication interface . It displays a welcoming login window where users can securely enter their credentials. Upon successful verification, it grants access to the main menu of the application, ensuring that only authorized users can interact with the system.
 
-[Image: images/Stage5/login.jpg]
+![Login](images/Stage5/login.jpg)
 
-[Image: images/Stage5/Login_Uncorrect_Details.jpg]
+![Uncorrect login:](images/Stage5/Login_Uncorrect_Details.jpg)
 
 ### `main` 🗺️
 
 Acting as the central navigation hub after a successful login, the `main` module generates the primary menu of the application . This screen provides intuitive buttons that direct the user to various core functionalities, including dedicated CRUD operations for different entities and access to more advanced options such as reports, queries, functions, and procedures. It's the user's starting point for all system features.
 
-[Image: images/Stage5/Main.jpg]
+![Main:](images/Stage5/Main.jpg)
+
 
 ### `student_crud` 🧑‍🎓
 
 This module implements the full **CRUD (Create, Read, Update, Delete)** functionality for the `Student` table . It provides a user-friendly graphical interface where administrators can easily input new student details, view existing student records, modify student information, and remove student entries from the database. It streamlines student data management.
 
-[Image: images/Stage5/Student.jpg]
+![student_crud:](images/Stage5/Student.jpg)
+
 
 ### `payment_crud` 💰
 
 The `payment_crud` module handles all **CRUD** operations for the `Payment` table . This screen allows authorized users to efficiently record new payments, retrieve specific payment details for inquiries, update existing payment records (e.g., amount or status changes), and delete erroneous payment entries. It provides comprehensive control over financial transactions.
-
-[Image: images/Stage5/Payment.jpg]
+![payment_crud:](images/Stage5/Payment.jpg)
 
 
 
 ### `takes_scholarship_crud` 🤝
 
 This module manages the **CRUD** operations for a crucial linking table that connects students to scholarships . It enables the creation, retrieval, modification, and deletion of records indicating which student has been granted which scholarship and on what date. This screen is vital for maintaining accurate and up-to-date student financial aid relationships.
+![takes_scholarship_crud:](images/Stage5/Takes_s.jpg)
 
-[Image: images/Stage5/Takes_s.jpg]
 
 ### `fetch_all_tables` 🎣
 The fetch_all module provides a comprehensive utility screen allowing users to view all records from various tables within the database 📋. It's designed to present a full overview of the data, offering visibility into tables such as Department, Employees, Budget, Student, Payment, Scholarship, Course, Enrollment, Instructor, and Teaches. This feature is valuable for auditing, debugging, and general data exploration.
-
-[Image: images/Stage5/FetchAll.jpg]
+![fetch_all:](images/Stage5/FetchAll.jpg)
 
 
 ### `more_option` ⭐
 
 This module serves as an intermediate navigation screen, offering access to a set of "more advanced" functionalities that might not be part of the daily core operations ⚙️. From here, users can seamlessly navigate to specialized screens dedicated to running custom queries, direct database functions, stored procedures, and a comprehensive utility to view data from all tables. This design enhances organization and user experience for complex features.
 
-[Image: images/Stage5/More_op.jpg]
+![more options:](images/Stage5/More_op.jpg)
+
 
 ### `queries_screen` 🔍
 
 The `queries_screen` module is dedicated to executing predefined advanced SQL queries . It presents a curated list of powerful queries (e.g., financial summaries, departmental breakdowns). Users can easily select and run these queries, with the results dynamically displayed in a clear, tabular format. This empowers users to gain insights from data without needing to write SQL.
 
-[Image: images/Stage5/Queries.jpg]
+![queries:](images/Stage5/Queries.jpg)
+
 
 ### `functions_screen` 🔢
 
 This screen provides an intuitive interface for interacting with and executing specific database functions implemented in PL/pgSQL (from Stage 4) . Users can input necessary parameters (like department IDs or student IDs) and trigger these functions. The results are then clearly displayed within the GUI, providing instant access to complex calculations defined in the database.
 
-[Image: images/Stage5/Functions.jpg]
+![functions:](images/Stage5/Functions.jpg)
+
 
 ### `procedures_screen` 🔄
 
 The `procedures_screen` module enables the execution of powerful stored procedures residing in the PostgreSQL database . It allows users to input required parameters (e.g., specific IDs for updates or data retrieval) and initiate these procedures. Any output or important notices generated by the procedures are gracefully captured and displayed, keeping the user informed of the operation's outcome.
 
-[Image: images/Stage5/Prucedures.jpg]
+![prucedures:](images/Stage5/Prucedures.jpg)
+
 
 ### `main_programs_screen` 🚀
 
 This module is designed to demonstrate the "Main Programs" from Stage 4, which typically involve a sequence of calls to multiple functions and procedures to achieve a more complex, integrated business process . It provides interfaces to run comprehensive demonstrations, showcasing how various database components work together to support advanced system workflows and operations.
 
-[Image: images/Stage5/Mains_p.jpg]
+![mains_p:](images/Stage5/Mains_p.jpg)
 
 
 
