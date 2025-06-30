@@ -1,6 +1,6 @@
 # DBProject - University Financial Department Database System
 
-![Project_pic:](images/Stage5/MINIP_Project.jpg)
+![Project_pic:](images/Stage5/MINIP_Project.png)
 
 
 
