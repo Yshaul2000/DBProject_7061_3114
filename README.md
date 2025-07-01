@@ -1648,6 +1648,74 @@ Good luck using the system!
 
 <br>
 
+
+<br>
+---
+
+# 📚 University Management System — Project Report
+
+---
+
+## 🔑 How to Run the Application
+
+1. Make sure you have Python 3 installed on your computer.
+2. Install required dependencies:
+   ```bash
+   pip install customtkinter psycopg2
+   ```
+3. Edit the `db.py` file and set the correct database connection details (database name, username, password, port, host).
+4. To run the application:
+   You can run `login_screen.py` or `main.py`:
+   ```bash
+   python login_screen.py
+   ```
+5. Log in with the predefined username and password (example: `aa`/`aa`).
+6. From the main menu, choose the screen you need: manage students, payments, scholarships, reports, or advanced options.
+
+---
+
+## 🧩 Project Workflow Explanation
+
+The application was developed to allow easy management of students, payments, and scholarships for a university.
+It includes all operations needed for database management: create, read, update, and delete (CRUD).
+
+**Project structure:**
+- A secure login screen for authentication.
+- A central main menu to navigate between management screens.
+- The code is divided into separate modules: `student_crud.py`, `payment_crud.py`, `takes_scholarship_crud.py`, `reports_screen.py`, and more.
+- Each screen includes input fields, output boxes, and buttons for CRUD actions and additional tasks.
+- The interface is built with `customtkinter` for a modern, user-friendly design.
+
+---
+
+## ⚙️ Tools Used
+
+- **Python 3** — main programming language.
+- **Tkinter + CustomTkinter** — to build a modern GUI.
+- **psycopg2** — Python library for PostgreSQL connection.
+- **PostgreSQL** — the main database for storing all data.
+- **Git + GitHub** — version control and source code management.
+
+---
+
+## 📷 Screenshots
+
+Below are example screenshots from running the system:
+
+1. **Login Screen** — ![Login](images/Stage5/login.jpg)
+2. **Main Menu** — ![Main:](images/Stage5/Main.jpg)
+3. **Student Management** — ![student_crud:](images/Stage5/Student.jpg)
+4. **More Options** — ![more options:](images/Stage5/More_op.jpg)
+
+
+---
+
+---
+
+Good luck!
+
+
+
 ---
 
 ## ✅ Conclusion
