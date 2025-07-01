@@ -1701,16 +1701,21 @@ It includes all operations needed for database management: create, read, update,
 
 Below are example screenshots from running the system:
 
-**Login Screen**  
+**Login Screen**
+<br>
 ![Login](images/Stage5/login.jpg)
 
-**Main Menu** 
+
+**Main Menu**
+<br>
 ![Main:](images/Stage5/Main.jpg)
 
 **Student Management** 
+<br>
 ![student_crud:](images/Stage5/Student.jpg)
 
 **More Options** 
+<br>
 ![more options:](images/Stage5/More_op.jpg)
 
 
