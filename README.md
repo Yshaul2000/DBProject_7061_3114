@@ -1650,7 +1650,6 @@ Good luck using the system!
 
 
 <br>
----
 
 # 📚 University Management System — Project Report
 
@@ -1702,10 +1701,17 @@ It includes all operations needed for database management: create, read, update,
 
 Below are example screenshots from running the system:
 
-1. **Login Screen** — ![Login](images/Stage5/login.jpg)
-2. **Main Menu** — ![Main:](images/Stage5/Main.jpg)
-3. **Student Management** — ![student_crud:](images/Stage5/Student.jpg)
-4. **More Options** — ![more options:](images/Stage5/More_op.jpg)
+**Login Screen**  
+![Login](images/Stage5/login.jpg)
+
+**Main Menu** 
+![Main:](images/Stage5/Main.jpg)
+
+**Student Management** 
+![student_crud:](images/Stage5/Student.jpg)
+
+**More Options** 
+![more options:](images/Stage5/More_op.jpg)
 
 
 ---
@@ -1717,7 +1723,7 @@ Good luck!
 
 
 ---
-
+<br>
 ## ✅ Conclusion
 
 This project successfully demonstrates the design, implementation, and operation of a financial management database system for a university. Throughout the two project stages, we:
