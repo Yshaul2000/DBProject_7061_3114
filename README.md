@@ -1721,24 +1721,30 @@ Below are example screenshots from running the system:
 
 ---
 
----
-
 Good luck!
 
 
 
 ---
 <br>
+
 ## ✅ Conclusion
 
-This project successfully demonstrates the design, implementation, and operation of a financial management database system for a university. Throughout the two project stages, we:
+This project successfully demonstrates the design, implementation, and operation of a financial management database system for a university. Throughout the project stages, we:
 
-- Designed a normalized relational database with ERD & DSD diagrams.
-- Implemented and populated the database using scripts and data generators.
-- Performed complex SQL operations including data analysis (SELECT), maintenance (UPDATE/DELETE), and constraint handling.
-- Demonstrated robust backup and recovery procedures.
-- Implemented transaction control with COMMIT and ROLLBACK operations to maintain data integrity.
+- Designed a normalized relational database with complete ERD & DSD diagrams to visualize entities and relationships.
+- Implemented and populated the database using Python scripts, Mockaroo, and Generatedata for realistic test data.
+- Performed complex SQL operations including data analysis (SELECT), maintenance (UPDATE/DELETE), constraints enforcement with ALTER TABLE, and integrity checks.
+- Demonstrated robust backup and recovery procedures to ensure data safety.
+- Implemented transaction control using COMMIT and ROLLBACK to maintain data integrity after operations.
+- Integrated the main financial system with an external Dormitory database using postgres_fdw and verified cross-database queries.
+- Created SQL views to simplify complex queries and present aggregated data to users.
+- Developed multiple PL/pgSQL programs, including stored functions, stored procedures, and triggers that automate operations like salary adjustments and automatic aid allocation.
+- Built main programs combining multiple components to simulate real business logic scenarios.
+- Developed a full Python GUI application using customtkinter and psycopg2 that connects to the database, provides authentication, and allows users to run CRUD operations, execute functions, procedures, views, and main programs interactively.
+- Demonstrated the use of clear, modular, and secure code, with separate screens for Students, Payments, Scholarships, Queries, Functions, Procedures, Reports, and Main Programs.
+- Provided extensive testing, screenshots, and documentation for each development stage.
 
-We gained deep insight into database modeling, query optimization, and real-world data operations.
+As a result, we gained deep insight into database modeling, advanced SQL, transaction control, PL/pgSQL programming, cross-database integration, and building a user-friendly, production-like management interface.
 
 ---
