@@ -591,11 +591,10 @@ FOREIGN DATA WRAPPER postgres_fdw
 OPTIONS (host 'localhost', dbname 'Group_database', port '5432');
 
 -- 3. Create a user mapping to specify the credentials for accessing the remote server.
---    Replace 'yshaul@g.jct.ac.il' and '5TxJQ5zC' with the actual username and password.
 --    'current_user' refers to the user executing this command on the local database.
 CREATE USER MAPPING FOR current_user
 SERVER group_db_server
-OPTIONS (user 'yshaul@g.jct.ac.il', password '5TxJQ5zC');
+OPTIONS (user 'admin', password 'pass');
 
 ------------------------------------
 -- 4. Create a foreign table in the local database that represents the 'student' table in the remote database.
